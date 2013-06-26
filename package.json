@@ -1,0 +1,12 @@
+{
+    "name": "jscompressor",
+    "title": "Javascript Compressor",
+    "description": "Javascript Compressor Extension for Adobe Brackets",
+    "homepage": "https://bitbucket.org/slorenzot/jscompressor",
+    "version": "1.0.0-beta",
+    "author": "Soulberto Lorenzo <slorenzot@gmail.com>",
+    "license": "MIT",
+    "engines": {
+        "brackets": ">=0.24.0"
+    }
+} 
