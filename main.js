@@ -42,7 +42,7 @@ define(function (require, exports, module) {
     
     var projectMenu = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU),
         workingsetMenu = Menus.getContextMenu(Menus.ContextMenuIds.WORKING_SET_MENU),
-        x = null;
+        nodeConnection = null;
             
     var EXTENSION_ID = "com.adobe.brackets.jscompressor",
         o = "bracketless.enabled",
@@ -64,10 +64,9 @@ define(function (require, exports, module) {
                 B = DocumentManager.getCurrentDocument().file;
             }
             
-            var C = B.fullPath;
-            x.domains.nodeexec.runScript(C, null, {
-                module_path: module.uri.replace("main.js", "")
-            })
+            var file = B.fullPath;
+            
+            nodeConnection.domains.nodeexec.runScript(file, null, {})
                 .fail(function (err) {
                     console.log("[brackets-jscompressor] error: " + err.toString());
                     
@@ -158,10 +157,10 @@ define(function (require, exports, module) {
     }
     
     AppInit.appReady(function () {
-        x = new NodeConnection();
+        nodeConnection = new NodeConnection();
         
-        function B() {
-            var D = x.connect(true);
+        function connectNode() {
+            var D = nodeConnection.connect(true);
             D.fail(function () {
                 console.error("[brackets-jscompressor] failed to connect to node");
             });
@@ -169,20 +168,28 @@ define(function (require, exports, module) {
             return D;
         }
         
-        function C() {
-            var E = ExtensionUtils.getModulePath(module, "node/NodeExecDomain");
-            var D = x.loadDomains([E], true);
-            D.fail(function () {
+        function loadNodeModule() {
+            var nodeModule = ExtensionUtils.getModulePath(module, "node/NodeExecDomain");
+            var nodeDomains = nodeConnection.loadDomains([nodeModule], true);
+            nodeDomains.fail(function () {
                 console.log("[brackets-jscompressor] failed to load node-exec domain");
             });
             
-            return D;
+            return nodeDomains;
         }
         
-        $(x).on("nodeexec.update", function (D, E) {
-            console.log(E);
+        $(nodeConnection).on("nodeexec.update", function (D, err) {
+            console.log(err);
+            
+            console.log("[brackets-jscompressor] error: " + err.toString());
+                    
+            var dialog = Dialogs.showModalDialog(
+                Dialogs.DIALOG_ID_ERROR,
+                "Run Script Error",
+                "The test file contained an error: " + err.toString()
+            );
         });
         
-        chain(B, C);
+        chain(connectNode, loadNodeModule);
     });
 });
