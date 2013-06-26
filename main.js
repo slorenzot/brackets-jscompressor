@@ -49,6 +49,7 @@ define(function (require, exports, module) {
         prefStorage = PreferencesManager.getPreferenceStorage(EXTENSION_ID);
     
     var jscompressor = {
+        name: 'Brackets JSCompressor',
         is_active_autocompress : prefStorage.getValue("enabled"),
         extensions: ["js", "css"],
         compressed_extensions: [".min.js", ".min.css"],
@@ -59,14 +60,20 @@ define(function (require, exports, module) {
             alert("Activa la compresión automática de archivo js/css");
         },
         compressfile: function () {
-            var B = ProjectManager.getSelectedItem();
-            if (B === null) {
-                B = DocumentManager.getCurrentDocument().file;
+            var selectedItem = ProjectManager.getSelectedItem();
+            if (selectedItem === null) {
+                selectedItem = DocumentManager.getCurrentDocument().file;
             }
             
-            var file = B.fullPath;
+            var compressor_path = '/Users/slorenzo/Library/Application Support/Brackets/extensions/user/brackets-jscompressor/compressor/yuicompressor-2.4.2.jar',
+                file = selectedItem.fullPath,
+                src = file,
+                dst = file + '.min';
+            var command = 'java -jar ' + ' ' + compressor_path + ' ' + src + ' -o ' + dst;
             
-            nodeConnection.domains.nodeexec.runScript(file, null, {})
+            console.log('execute' + command);
+            
+            nodeConnection.domains.nodeexec.runScript(command, null, {})
                 .fail(function (err) {
                     console.log("[brackets-jscompressor] error: " + err.toString());
                     
@@ -146,12 +153,12 @@ define(function (require, exports, module) {
     });
             
     function chain() {
-        var C = Array.prototype.slice.call(arguments, 0);
-        if (C.length > 0) {
-            var B = C.shift();
-            var D = B.call();
-            D.done(function () {
-                chain.apply(null, C);
+        var functions = Array.prototype.slice.call(arguments, 0);
+        if (functions.length > 0) {
+            var currentFunction = functions.shift();
+            var callee = currentFunction.call();
+            callee.done(function () {
+                chain.apply(null, functions);
             });
         }
     }
@@ -160,12 +167,12 @@ define(function (require, exports, module) {
         nodeConnection = new NodeConnection();
         
         function connectNode() {
-            var D = nodeConnection.connect(true);
-            D.fail(function () {
+            var node = nodeConnection.connect(true);
+            node.fail(function () {
                 console.error("[brackets-jscompressor] failed to connect to node");
             });
             
-            return D;
+            return node;
         }
         
         function loadNodeModule() {
@@ -173,20 +180,24 @@ define(function (require, exports, module) {
             var nodeDomains = nodeConnection.loadDomains([nodeModule], true);
             nodeDomains.fail(function () {
                 console.log("[brackets-jscompressor] failed to load node-exec domain");
+                
+                var dialog = Dialogs.showModalDialog(
+                    Dialogs.DIALOG_ID_ERROR,
+                    "Error de cargando módulo de " + jscompressor.name,
+                    "No se pudo cargar el módulo NodeExecDomain."
+                );
             });
             
             return nodeDomains;
         }
         
         $(nodeConnection).on("nodeexec.update", function (D, err) {
-            console.log(err);
-            
             console.log("[brackets-jscompressor] error: " + err.toString());
                     
             var dialog = Dialogs.showModalDialog(
                 Dialogs.DIALOG_ID_ERROR,
-                "Run Script Error",
-                "The test file contained an error: " + err.toString()
+                "Error de construcción de " + jscompressor.name,
+                "Se generó el siguiente error: " + err.toString()
             );
         });
         
