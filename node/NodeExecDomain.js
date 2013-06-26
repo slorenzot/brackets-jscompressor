@@ -35,22 +35,17 @@
     function runScript(file, args, options) {
         startDate = new Date();
         
-        var jarfile_path = options.module_path,
-            srcfile = file,
-            dstfile = file;
-        var command = 'java -jar ' + jarfile_path + ' ' + srcfile + ' -o ' + dstfile + '.min.js';
-        
-        childproc = process.execFile(command, args, options,
+        childproc = process.execFile(file, args, options,
             function (error, stdout, stderr) {
                 if (error === null) {
                     error = '';
                 }
-                var name = command.substring(command.lastIndexOf('/') + 1);
+                var name = file.substring(file.lastIndexOf('/') + 1);
                 var resultobj = {
                     'error' : error,
                     'stdout' : stdout,
                     'stderr' : stderr,
-                    'command' : command,
+                    'command' : file,
                     'title' : name,
                     'exitcode' : childproc.exitCode,
                     'time' : (new Date() - startDate) / 1000

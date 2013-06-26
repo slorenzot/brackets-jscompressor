@@ -69,7 +69,7 @@ define(function (require, exports, module) {
                 file = selectedItem.fullPath,
                 src = file,
                 dst = file + '.min';
-            var command = 'java -jar ' + ' ' + compressor_path + ' ' + src + ' -o ' + dst;
+            var command = "/usr/bin/java -jar '" + compressor_path + "' -o '" + dst + "'  '" + src + "'";
             
             console.log('execute' + command);
             
