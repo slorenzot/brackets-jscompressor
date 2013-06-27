@@ -64,9 +64,6 @@ define(function (require, exports, module) {
         getCompressorPath: function () {
             return getExtensionPath() + this.compressor_relpath;
         },
-        isValidFile: function (B) {
-            return true;
-        },
         autocompress: function () {
             alert("Activa la compresión automática de archivo js/css");
         },
@@ -134,7 +131,7 @@ define(function (require, exports, module) {
         projectMenu.addMenuItem("ext.compressfile_cmd");
     }
             
-    $(DocumentManager).on("documentSaved", function (evt, entry) {
+//    $(DocumentManager).on("documentSaved", function (evt, entry) {
 //        if (jscompressor.is_active_autocompress) {
 //            var extfile = entry.file.name.split(".").pop();
 //            for (extfile in jscompressor.extensions) {
@@ -143,45 +140,49 @@ define(function (require, exports, module) {
 //                }
 //            }
 //        }
-    });
+//    });
                 
-    function isValidFile(entry) {
-        var pos, extfile = "";
-        if (entry && entry.isFile) {
-            extfile = entry.name.split(".").pop();
-            for (pos in jscompressor.extensions) {
-                if (jscompressor.extensions.hasOwnProperty(pos)) {
-                    if (jscompressor.extensions[pos] === extfile) {
-                        return true;
-                    }
-                }
-            }
-        }
-                
-        return false;
-    }
-            
+//    function isValidFile(entry) {
+//        var pos, extfile = "";
+//        if (entry && entry.isFile) {
+//            extfile = entry.name.split(".").pop();
+//            for (pos in jscompressor.extensions) {
+//                if (jscompressor.extensions.hasOwnProperty(pos)) {
+//                    if (jscompressor.extensions[pos] === extfile) {
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//                
+//        return false;
+//    }
+
     $(projectMenu).on("beforeContextMenuOpen", function (B) {
         var selectedItem = ProjectManager.getSelectedItem(), D;
         compressfile_cmd.setEnabled(false);
         
-        if (isValidFile(selectedItem)) {
+        console.log(/^(\w+)(\.(js|css))$/.test(selectedItem.name));
+        
+        if (selectedItem.isFile && /^(\w+)(\.(js|css))$/.test(selectedItem.name)) {
             compressfile_cmd.setEnabled(true);
         }
     });
             
     function chain() {
         var functions = Array.prototype.slice.call(arguments, 0);
+        
         if (functions.length > 0) {
-            var currentFunction = functions.shift();
-            var callee = currentFunction.call();
+            var currentFunction = functions.shift(),
+                callee = currentFunction.call();
+
             callee.done(function () {
                 chain.apply(null, functions);
             });
         }
     }
     
-    console.log(String);
+//    console.log(String);
     
     // extension main function
     AppInit.appReady(function () {
@@ -189,6 +190,9 @@ define(function (require, exports, module) {
         
         function connectNode() {
             var node = nodeConnection.connect(true);
+            
+            console.info("[brackets-jscompressor] Connecting to NODE...");
+            
             node.fail(function () {
                 console.error("[brackets-jscompressor] failed to connect to node");
             });
@@ -196,9 +200,12 @@ define(function (require, exports, module) {
             return node;
         }
         
+        // load NodeJS module
         function loadNodeModule() {
-            var nodeModule = ExtensionUtils.getModulePath(module, "node/NodeExecDomain");
+            var nodeModule = ExtensionUtils.getModulePath(module, 'node/NodeExecDomain');
             var nodeDomains = nodeConnection.loadDomains([nodeModule], true);
+            
+            console.info("[brackets-jscompressor] load: " + nodeModule);
             
             nodeDomains.fail(function () {
                 console.log("[brackets-jscompressor] failed to load node-exec domain");
@@ -214,21 +221,22 @@ define(function (require, exports, module) {
         }
         
         // update status (working) function
-        $(nodeConnection).on("nodeexec.fail", function (D, err) {
-            var error = JSON.parse(err);
+        $(nodeConnection)
+            .on("nodeexec.update", function (domain, err) {
+                var error = JSON.parse(err); // parsing json from node js
             
-            var dialog = Dialogs.showModalDialog(
-                Dialogs.DIALOG_ID_ERROR,
-                "Error de construyendo de " + jscompressor.name,
-                "Se generó el siguiente error: " + err.stderr
-            );
-        });
+                if (error.err) { // if compressing process fail
+                    var dialog = Dialogs.showModalDialog(
+                        Dialogs.DIALOG_ID_ERROR,
+                        "Error de construyendo de " + jscompressor.name,
+                        "Se generó el siguiente error: " + err.stderr
+                    );
+                }
+                
+                ProjectManager.refreshFileTree(); // refresh file tree to see new file
+            });
         
-        // complete status function
-        $(nodeConnection).on("nodeexec.complete", function () {
-            console.log("[brackets-jscompressor] success: ");
-        });
-        
+        // load in chain
         chain(connectNode, loadNodeModule);
     });
 });

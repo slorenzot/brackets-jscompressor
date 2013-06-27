@@ -37,13 +37,6 @@
         
         childproc = process.execFile(command, args, options,
             function (err, stdout, stderr) {
-                if (err === null) {
-                    err = '';
-                    
-                    domainManager.emitEvent("nodeexec", "update", null);
-//                    return;
-                }
-
                 var resultobj = {
                     'error' : err,
                     'stdout' : stdout,
@@ -54,14 +47,16 @@
                     'exitcode' : childproc.exitCode,
                     'time' : (new Date() - startDate) / 1000
                 };
-                
+                                
                 var resultstr = JSON.stringify(resultobj);
-                domainManager.emitEvent("nodeexec", "fail", resultstr);
+                
+                domainManager.emitEvent("nodeexec", "update", resultstr);
             });
     }
 
     function init(DomainManager) {
         domainManager = DomainManager;
+        
         if (!domainManager.hasDomain("nodeexec")) {
             domainManager.registerDomain("nodeexec", { major: 0, minor: 1 });
         }
@@ -79,16 +74,6 @@
             "nodeexec",
             "update",
             ["data"]
-        );
-        domainManager.registerEvent(
-            "nodeexec",
-            "fail",
-            ["data"]
-        );
-        domainManager.registerEvent(
-            "nodeexec",
-            "complete",
-            []
         );
     }
 
