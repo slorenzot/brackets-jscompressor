@@ -48,11 +48,22 @@ define(function (require, exports, module) {
         o = "bracketless.enabled",
         prefStorage = PreferencesManager.getPreferenceStorage(EXTENSION_ID);
     
+    function getExtensionPath() {
+        var selectedItem = ProjectManager.getSelectedItem();
+        var file_cwd = selectedItem.fullPath.split('/');
+        file_cwd.pop();
+        return file_cwd.join('/');
+    }
+    
     var jscompressor = {
         name: 'Brackets JSCompressor',
         is_active_autocompress : prefStorage.getValue("enabled"),
         extensions: ["js", "css"],
-        compressed_extensions: [".min.js", ".min.css"],
+        compressed_extension: "-min.",
+        compressor_relpath: '/compressor/yuicompressor-2.4.2.jar',
+        getCompressorPath: function () {
+            return getExtensionPath() + this.compressor_relpath;
+        },
         isValidFile: function (B) {
             return true;
         },
@@ -61,40 +72,41 @@ define(function (require, exports, module) {
         },
         compressfile: function () {
             var selectedItem = ProjectManager.getSelectedItem();
+
             if (selectedItem === null) {
                 selectedItem = DocumentManager.getCurrentDocument().file;
             }
             
-            var compressor_path = '/Users/slorenzo/Library/Application Support/Brackets/extensions/user/brackets-jscompressor/compressor/yuicompressor-2.4.2.jar',
-                file = selectedItem.fullPath,
-                src = file,
-                dst = file + '.min';
+            var compressor_path = jscompressor.getCompressorPath(), // get path to compressor
+                src = selectedItem.fullPath,
+                filename = src.split('.').shift(), // full filename without extension
+                new_ext = jscompressor.compressed_extension + src.split('.').pop(), // only new extension file
+                dst = filename + new_ext; // compressed filepath (path + filename + new extension)
+            
             var command = "java -jar '" + compressor_path + "' -o '" + dst + "'  '" + src + "'";
 
-            console.log('execute' + command);
-            var file_cwd = selectedItem.fullPath.split('/');
-            file_cwd.pop();
-            var curcwd = file_cwd.join('/');
+            console.log('[brackets-jscompressor] execute: ' + command);
             
             nodeConnection.domains.nodeexec.runScript(command, null, {
-                cwd: curcwd
-            })
-                .fail(function (err) {
-                    console.log("[brackets-jscompressor] error: " + err.toString());
-                    
-                    var dialog = Dialogs.showModalDialog(
-                        Dialogs.DIALOG_ID_ERROR,
-                        "Run Script Error",
-                        "The test file contained an error: " + err.toString()
-                    );
-                });
+                cwd: getExtensionPath()
+            });
+//                .fail(function (err) {
+//                    console.log("[brackets-jscompressor] error: " + err.toString());
+//                    
+//                    var dialog = Dialogs.showModalDialog(
+//                        Dialogs.DIALOG_ID_ERROR,
+//                        "Run Script Error",
+//                        "The test file contained an error: " + err.toString()
+//                    );
+//                });
         }
     };
             
     jscompressor.is_active_autocompress = prefStorage.getValue("enabled");
             
     var autocompress_cmd, compressfile_cmd;
-            
+    
+    // Regiter autocompress command
     autocompress_cmd = CommandManager.register("Autocomprimir", "ext.autocompress_cmd", function () {
         jscompressor.is_active_autocompress = !jscompressor.is_active_autocompress;
         var command = CommandManager.get("ext.autocompress_cmd");
@@ -111,13 +123,14 @@ define(function (require, exports, module) {
         }
     });
     
-    compressfile_cmd = CommandManager.register("Construir *.min.js", "ext.compressfile_cmd", jscompressor.compressfile);
+    // Register compress file command
+    compressfile_cmd = CommandManager.register("Comprimir...", "ext.compressfile_cmd", jscompressor.compressfile);
                 
 //    var c = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU);
                 
     if (projectMenu) {
         projectMenu.addMenuDivider();
-        projectMenu.addMenuItem("ext.autocompress_cmd");
+//        projectMenu.addMenuItem("ext.autocompress_cmd");
         projectMenu.addMenuItem("ext.compressfile_cmd");
     }
             
@@ -168,8 +181,11 @@ define(function (require, exports, module) {
         }
     }
     
+    console.log(String);
+    
+    // extension main function
     AppInit.appReady(function () {
-        nodeConnection = new NodeConnection();
+        nodeConnection = new NodeConnection(); // connect NodeJS
         
         function connectNode() {
             var node = nodeConnection.connect(true);
@@ -183,6 +199,7 @@ define(function (require, exports, module) {
         function loadNodeModule() {
             var nodeModule = ExtensionUtils.getModulePath(module, "node/NodeExecDomain");
             var nodeDomains = nodeConnection.loadDomains([nodeModule], true);
+            
             nodeDomains.fail(function () {
                 console.log("[brackets-jscompressor] failed to load node-exec domain");
                 
@@ -196,15 +213,19 @@ define(function (require, exports, module) {
             return nodeDomains;
         }
         
-        $(nodeConnection).on("nodeexec.update", function (D, err) {
+        // update status (working) function
+        $(nodeConnection).on("nodeexec.fail", function (D, err) {
+            var error = JSON.parse(err);
+            
             var dialog = Dialogs.showModalDialog(
                 Dialogs.DIALOG_ID_ERROR,
-                "Error de construcción de " + jscompressor.name,
-                "Se generó el siguiente error: " + err.toString()
+                "Error de construyendo de " + jscompressor.name,
+                "Se generó el siguiente error: " + err.stderr
             );
         });
         
-        $(nodeConnection).on("nodeexec.complete", function (D) {
+        // complete status function
+        $(nodeConnection).on("nodeexec.complete", function () {
             console.log("[brackets-jscompressor] success: ");
         });
         

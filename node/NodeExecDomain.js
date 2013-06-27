@@ -40,7 +40,8 @@
                 if (err === null) {
                     err = '';
                     
-                    domainManager.emitEvent("nodeexec", "complete");
+                    domainManager.emitEvent("nodeexec", "update", null);
+//                    return;
                 }
 
                 var resultobj = {
@@ -55,7 +56,7 @@
                 };
                 
                 var resultstr = JSON.stringify(resultobj);
-                domainManager.emitEvent("nodeexec", "update", resultstr);
+                domainManager.emitEvent("nodeexec", "fail", resultstr);
             });
     }
 

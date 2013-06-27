@@ -1,7 +1,7 @@
 {
     "name": "brackets-jscompressor",
-    "title": "Javascript Compressor for Adobe Brackets",
-    "description": "Javascript Compressor Extension for Adobe Brackets",
+    "title": "brackets-jscompressor",
+    "description": "Javascript Compressor Extension for Adobe Brackets.",
     "homepage": "https://bitbucket.org/slorenzot/brackets-jscompressor",
     "version": "0.0.1",
     "author": "Soulberto Lorenzo <slorenzot@gmail.com>",
