@@ -69,11 +69,17 @@ define(function (require, exports, module) {
                 file = selectedItem.fullPath,
                 src = file,
                 dst = file + '.min';
-            var command = "/usr/bin/java -jar '" + compressor_path + "' -o '" + dst + "'  '" + src + "'";
-            
+            var command = "java -jar '" + compressor_path + "' -o '" + dst + "'  '" + src + "'";
+            command = 'ls -la';
+//            console.log(selectedItem);
             console.log('execute' + command);
+            var file_cwd = selectedItem.fullPath.split('/');
+            file_cwd.pop();
+            var curcwd = file_cwd.join('/');
             
-            nodeConnection.domains.nodeexec.runScript(command, null, {})
+            nodeConnection.domains.nodeexec.runScript(command, null, {
+                cwd: curcwd
+            })
                 .fail(function (err) {
                     console.log("[brackets-jscompressor] error: " + err.toString());
                     
@@ -192,6 +198,7 @@ define(function (require, exports, module) {
         }
         
         $(nodeConnection).on("nodeexec.update", function (D, err) {
+            console.log(D, err);
             console.log("[brackets-jscompressor] error: " + err.toString());
                     
             var dialog = Dialogs.showModalDialog(

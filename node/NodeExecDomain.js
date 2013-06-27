@@ -32,21 +32,22 @@
         childproc = null,
         startDate = null;
     
-    function runScript(file, args, options) {
+    function runScript(command, args, options) {
         startDate = new Date();
         
-        childproc = process.execFile(file, args, options,
-            function (error, stdout, stderr) {
-                if (error === null) {
-                    error = '';
+        childproc = process.execFile(command, args, options,
+            function (err, stdout, stderr) {
+                if (err === null) {
+                    err = '';
                 }
-                var name = file.substring(file.lastIndexOf('/') + 1);
+
                 var resultobj = {
-                    'error' : error,
+                    'error' : err,
                     'stdout' : stdout,
                     'stderr' : stderr,
-                    'command' : file,
-                    'title' : name,
+                    'command' : command,
+                    'cwd': options.cwd,
+                    'title' : command,
                     'exitcode' : childproc.exitCode,
                     'time' : (new Date() - startDate) / 1000
                 };
