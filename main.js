@@ -70,8 +70,7 @@ define(function (require, exports, module) {
                 src = file,
                 dst = file + '.min';
             var command = "java -jar '" + compressor_path + "' -o '" + dst + "'  '" + src + "'";
-            command = 'ls -la';
-//            console.log(selectedItem);
+
             console.log('execute' + command);
             var file_cwd = selectedItem.fullPath.split('/');
             file_cwd.pop();
@@ -198,14 +197,15 @@ define(function (require, exports, module) {
         }
         
         $(nodeConnection).on("nodeexec.update", function (D, err) {
-            console.log(D, err);
-            console.log("[brackets-jscompressor] error: " + err.toString());
-                    
             var dialog = Dialogs.showModalDialog(
                 Dialogs.DIALOG_ID_ERROR,
                 "Error de construcción de " + jscompressor.name,
                 "Se generó el siguiente error: " + err.toString()
             );
+        });
+        
+        $(nodeConnection).on("nodeexec.complete", function (D) {
+            console.log("[brackets-jscompressor] success: ");
         });
         
         chain(connectNode, loadNodeModule);

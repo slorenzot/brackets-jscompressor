@@ -39,6 +39,8 @@
             function (err, stdout, stderr) {
                 if (err === null) {
                     err = '';
+                    
+                    domainManager.emitEvent("nodeexec", "complete");
                 }
 
                 var resultobj = {
@@ -76,6 +78,16 @@
             "nodeexec",
             "update",
             ["data"]
+        );
+        domainManager.registerEvent(
+            "nodeexec",
+            "fail",
+            ["data"]
+        );
+        domainManager.registerEvent(
+            "nodeexec",
+            "complete",
+            []
         );
     }
 
