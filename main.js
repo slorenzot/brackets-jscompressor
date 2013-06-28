@@ -100,7 +100,7 @@ define(function (require, exports, module) {
     });
     
     autocompress_cmd.setChecked(jscompressor.is_active_autocompress);
-    var menu = Menus.getMenu(Menus.AppMenuBar.FILE_MENU);
+    var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
     
     if (menu) {
         menu.addMenuDivider();
