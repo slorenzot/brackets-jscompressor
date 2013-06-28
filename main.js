@@ -93,15 +93,13 @@ define(function (require, exports, module) {
     autocompress_cmd = CommandManager.register("Comprimir al guardar", "ext.autocompress_cmd", function () {
         jscompressor.is_active_autocompress = !jscompressor.is_active_autocompress;
         var command = CommandManager.get("ext.autocompress_cmd");
-//        if (!command) {
-//            return;
-//        }
                 
         command.setChecked(jscompressor.is_active_autocompress);
         prefStorage.setValue("enabled", jscompressor.is_active_autocompress);
         PreferencesManager.savePreferences();
     });
     
+    autocompress_cmd.setChecked(jscompressor.is_active_autocompress);
     var menu = Menus.getMenu(Menus.AppMenuBar.FILE_MENU);
     
     if (menu) {
