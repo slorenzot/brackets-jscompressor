@@ -32,9 +32,6 @@ define(function (require, exports, module) {
         Dialogs = brackets.getModule("widgets/Dialogs"),
         DocumentManager = brackets.getModule("document/DocumentManager"),
         CommandManager = brackets.getModule("command/CommandManager"),
-//        Commands = brackets.getModule("command/Commands"),
-//        KeyBindingManager = brackets.getModule("command/KeyBindingManager"),
-//        EditorManager = brackets.getModule("editor/EditorManager"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
         ProjectManager = brackets.getModule("project/ProjectManager"),
         Menus = brackets.getModule("command/Menus"),
@@ -93,31 +90,38 @@ define(function (require, exports, module) {
     var autocompress_cmd, compressfile_cmd;
     
     // Regiter autocompress command
-    autocompress_cmd = CommandManager.register("Autocomprimir", "ext.autocompress_cmd", function () {
+    autocompress_cmd = CommandManager.register("Comprimir al guardar", "ext.autocompress_cmd", function () {
         jscompressor.is_active_autocompress = !jscompressor.is_active_autocompress;
         var command = CommandManager.get("ext.autocompress_cmd");
-        if (!command) {
-            return;
-        }
+//        if (!command) {
+//            return;
+//        }
                 
         command.setChecked(jscompressor.is_active_autocompress);
         prefStorage.setValue("enabled", jscompressor.is_active_autocompress);
         PreferencesManager.savePreferences();
     });
     
+    var menu = Menus.getMenu(Menus.AppMenuBar.FILE_MENU);
+    
+    if (menu) {
+        menu.addMenuDivider();
+        menu.addMenuItem("ext.autocompress_cmd");
+    }
+    
     // Register compress file command
     compressfile_cmd = CommandManager.register("Comprimir...", "ext.compressfile_cmd", jscompressor.compressfile);
-                
-//    var c = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU);
                 
     if (projectMenu) {
         projectMenu.addMenuDivider();
         projectMenu.addMenuItem("ext.compressfile_cmd");
     }
             
-//    $(DocumentManager).on("documentSaved", function (evt, entry) {
-//
-//    });
+    $(DocumentManager).on("documentSaved", function (evt, entry) {
+        if (jscompressor.is_active_autocompress) {
+            jscompressor.compressfile();
+        }
+    });
 
     $(projectMenu).on("beforeContextMenuOpen", function (B) {
         var selectedItem = ProjectManager.getSelectedItem(), D;
@@ -164,11 +168,11 @@ define(function (require, exports, module) {
             var nodeModule = ExtensionUtils.getModulePath(module, 'node/NodeExecDomain');
             var nodeDomains = nodeConnection.loadDomains([nodeModule], true);
             
-            console.info("[brackets-jscompressor] load: " + nodeModule);
-            
             nodeDomains.fail(function () {
                 console.log("[brackets-jscompressor] failed to load node-exec domain");
             });
+            
+            console.info("[brackets-jscompressor] loaded " + nodeModule);
             
             return nodeDomains;
         }
@@ -187,7 +191,7 @@ define(function (require, exports, module) {
                         "Se generó el siguiente error: " + error.stderr
                     );
                 } else {
-                    console.log(error.stdout);
+                    console.info("[brackets-jscompressor] processed successful...");
                 }
                 
                 ProjectManager.refreshFileTree(); // refresh file tree to see new file
