@@ -35,7 +35,7 @@
     function runScript(command, args, options) {
         startDate = new Date();
         
-        childproc = process.execFile(command, args, options,
+        childproc = process.exec(command, options,
             function (err, stdout, stderr) {
                 var resultobj = {
                     'error' : err,
