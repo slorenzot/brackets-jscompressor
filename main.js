@@ -121,8 +121,8 @@ define(function (require, exports, module) {
         }
     });
 
-    $(projectMenu).on("beforeContextMenuOpen", function (B) {
-        var selectedItem = ProjectManager.getSelectedItem(), D;
+    $(projectMenu).on("beforeContextMenuOpen", function (event) {
+        var selectedItem = ProjectManager.getSelectedItem();
         compressfile_cmd.setEnabled(false);
         
         if (selectedItem.isFile && /^(\w+)(\.(js|css))$/.test(selectedItem.name)) {
