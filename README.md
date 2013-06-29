@@ -2,14 +2,17 @@
 
 This extension allows automatically compress javascript and css files using YUI compressor at work or when you want. 
 
-Select the "Compress on save" to activate it.
+Select the "Compress on save" (or press `ctrl-alt-a`) to activate it.
 
 ## Para instalar: ##
 
 1.- Abra el gestor de extensiones de Brackets.
 2.- Haga click en instalar desde una URL.
-3.- Copie el enlace https://bitbucket.org/slorenzot/brackets-jscompressor/src/ en el cuadro de texto.
+3.- Copie el enlace `https://bitbucket.org/slorenzot/brackets-jscompressor/src/` en el cuadro de texto.
 4.- Haga clic en Instalar.
+
+## Requerimientos ##
+Requiere tener instalada la JRE en el equipo.
 
 ----------------
 
@@ -17,12 +20,16 @@ Select the "Compress on save" to activate it.
 
 Esta extensión permite comprimir automáticamente los archivos javascript y css usando el compresor YUI mientras trabaja o cuando lo desee. 
 
-Seleccione la opción "Comprimir al guardar" para activarlo.
+Seleccione la opción "Comprimir al guardar" (o presione `ctrl-alt-a) para activarlo.
 
 
 ## To install: ##
 
 1.- Open Brackets extensions manager.
 2.- Click Install from a URL.
-3.- Https://bitbucket.org/slorenzot/brackets-jscompressor/src/ Copy the link in the text box.
+3.- Copy this link `Https://bitbucket.org/slorenzot/brackets-jscompressor/src/` in the text box.
 4.- Click Install.
+
+
+## Requirements ##
+Requires JRE be installed on the computer.
