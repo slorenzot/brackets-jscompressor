@@ -56,16 +56,41 @@ define(function (require, exports, module) {
         name: 'Brackets JSCompressor',
         is_active_autocompress : prefStorage.getValue("enabled"),
         extensions: ["js", "css"],
+        shorcuts: {
+            'autocompress_cmd': 'ctrl-alt-a',
+            'compressfile_cmd': 'ctrl-alt-c'
+        },
         compressed_extension: "-min.",
         compressor_relpath: '/compressor/yuicompressor-2.4.2.jar',
         getCompressorPath: function () {
             return getExtensionPath() + this.compressor_relpath;
+        },
+        checkJREInstall: function () {
+            var jreInstalled = this.isJREInstalled();
+            
+            if (!jreInstalled) {
+                var dialog = Dialogs.showModalDialog(
+                    Dialogs.DIALOG_ID_ERROR,
+                    jscompressor.name + ": JRE no está instalado ",
+                    "No se encontró ninguna instalación de la JRE de Java. Este es un requisito indispensable para la extensión brackets-jscompressor.<br><br>Si desea descargar e instalar la JRE de Java haga clic <a target=\"new\" href=\"http://www.java.com/es/download/\">aquí</a>."
+                );
+            }
+            
+            return jreInstalled;
+        },
+        isJREInstalled: function () {
+//            nodeConnection.domains.nodeexec.runScript("echo ", null, {});
+            return false;
         },
         autocompress: function () {
             alert("Activa la compresión automática de archivo js/css");
         },
         compressfile: function () {
             var selectedItem = ProjectManager.getSelectedItem();
+            
+            if (!jscompressor.checkJREInstall()) {
+                return; // Do nothing because JRE is not installed
+            }
 
             if (selectedItem === null) {
                 selectedItem = DocumentManager.getCurrentDocument().file;
@@ -77,7 +102,8 @@ define(function (require, exports, module) {
                 new_ext = jscompressor.compressed_extension + src.split('.').pop(), // only new extension file
                 dst = filename + new_ext; // compressed filepath (path + filename + new extension)
             
-            var command = "/usr/bin/java -jar '" + compressor_path + "' -o '" + dst + "' '" + src + "'";
+            // var command = "/usr/bin/java -jar '" + compressor_path + "' -o '" + dst + "' '" + src + "'";
+            var command = "java -jar '" + compressor_path + "' -o '" + dst + "' '" + src + "'";
             
             nodeConnection.domains.nodeexec.runScript(command, null, {
                 cwd: getExtensionPath()
@@ -99,28 +125,30 @@ define(function (require, exports, module) {
         PreferencesManager.savePreferences();
     });
     
+    // Register compress file command
+    compressfile_cmd = CommandManager.register("Comprimir...", "ext.compressfile_cmd", jscompressor.compressfile);
+    
     autocompress_cmd.setChecked(jscompressor.is_active_autocompress);
     var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
     
     if (menu) {
         menu.addMenuDivider();
-        menu.addMenuItem("ext.autocompress_cmd");
+        menu.addMenuItem("ext.autocompress_cmd", jscompressor.shorcuts.autocompress_cmd);
     }
-    
-    // Register compress file command
-    compressfile_cmd = CommandManager.register("Comprimir...", "ext.compressfile_cmd", jscompressor.compressfile);
                 
     if (projectMenu) {
         projectMenu.addMenuDivider();
-        projectMenu.addMenuItem("ext.compressfile_cmd");
+        projectMenu.addMenuItem("ext.compressfile_cmd", jscompressor.shorcuts.compressfile_cmd);
     }
-            
+    
+    // after save document action
     $(DocumentManager).on("documentSaved", function (evt, entry) {
-        if (jscompressor.is_active_autocompress) {
+        if (jscompressor.isJREInstalled() && jscompressor.is_active_autocompress) {
             jscompressor.compressfile();
         }
     });
 
+    // before create context menu in left tree file viewer
     $(projectMenu).on("beforeContextMenuOpen", function (event) {
         var selectedItem = ProjectManager.getSelectedItem();
         compressfile_cmd.setEnabled(false);
