@@ -66,7 +66,7 @@ define(function (require, exports, module) {
             return getExtensionPath() + this.compressor_relpath;
         },
         checkJREInstall: function () {
-            var jreInstalled = this.isJREInstalled();
+            var jreInstalled = jscompressor.isJREInstalled();
             
             if (!jreInstalled) {
                 var dialog = Dialogs.showModalDialog(
@@ -79,8 +79,10 @@ define(function (require, exports, module) {
             return jreInstalled;
         },
         isJREInstalled: function () {
-//            nodeConnection.domains.nodeexec.runScript("echo ", null, {});
-            return false;
+//            nodeConnection.domains.nodeexec.runScript("which java", null, {
+//                cwd: this.getExtensionPath()
+//            });
+            return true;
         },
         autocompress: function () {
             alert("Activa la compresión automática de archivo js/css");
