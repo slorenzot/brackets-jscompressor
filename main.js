@@ -37,7 +37,11 @@ define(function (require, exports, module) {
         Menus = brackets.getModule("command/Menus"),
         NodeConnection = brackets.getModule("utils/NodeConnection");
     
-    var projectMenu = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU),
+    var Languages = require("Strings"),
+        Shortcuts = require("Shortcuts");
+        
+    var langs = Languages.Strings('es'),
+        projectMenu = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU),
         workingsetMenu = Menus.getContextMenu(Menus.ContextMenuIds.WORKING_SET_MENU),
         nodeConnection = null;
             
@@ -45,6 +49,7 @@ define(function (require, exports, module) {
         o = "bracketless.enabled",
         prefStorage = PreferencesManager.getPreferenceStorage(EXTENSION_ID);
     
+    // get bracket jscompress full path
     function getExtensionPath() {
         var selectedItem = ProjectManager.getSelectedItem();
         var file_cwd = selectedItem.fullPath.split('/');
@@ -56,10 +61,6 @@ define(function (require, exports, module) {
         name: 'Brackets JSCompressor',
         is_active_autocompress : prefStorage.getValue("enabled"),
         extensions: ["js", "css"],
-        shorcuts: {
-            'autocompress_cmd': 'ctrl-alt-a',
-            'compressfile_cmd': 'ctrl-alt-c'
-        },
         compressed_extension: "-min.",
         compressor_relpath: '/compressor/yuicompressor-2.4.2.jar',
         getCompressorPath: function () {
@@ -118,7 +119,7 @@ define(function (require, exports, module) {
     var autocompress_cmd, compressfile_cmd;
     
     // Regiter autocompress command
-    autocompress_cmd = CommandManager.register("Comprimir al guardar", "ext.autocompress_cmd", function () {
+    autocompress_cmd = CommandManager.register(langs.CMD_ACTIVE_COMPRESS_ON_SAVE, "ext.autocompress_cmd", function () {
         jscompressor.is_active_autocompress = !jscompressor.is_active_autocompress;
         var command = CommandManager.get("ext.autocompress_cmd");
                 
@@ -128,19 +129,19 @@ define(function (require, exports, module) {
     });
     
     // Register compress file command
-    compressfile_cmd = CommandManager.register("Comprimir...", "ext.compressfile_cmd", jscompressor.compressfile);
+    compressfile_cmd = CommandManager.register(langs.CMD_COMPRESS_NOW, "ext.compressfile_cmd", jscompressor.compressfile);
     
     autocompress_cmd.setChecked(jscompressor.is_active_autocompress);
     var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
     
     if (menu) {
         menu.addMenuDivider();
-        menu.addMenuItem("ext.autocompress_cmd", jscompressor.shorcuts.autocompress_cmd);
+        menu.addMenuItem("ext.autocompress_cmd", Shortcuts.allPlataforms.CMD_ACTIVE_COMPRESS_ON_SAVE);
     }
                 
     if (projectMenu) {
         projectMenu.addMenuDivider();
-        projectMenu.addMenuItem("ext.compressfile_cmd", jscompressor.shorcuts.compressfile_cmd);
+        projectMenu.addMenuItem("ext.compressfile_cmd", Shortcuts.allPlataforms.CMD_COMPRESS_NOW);
     }
     
     // after save document action
