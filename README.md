@@ -1,45 +1,9 @@
+
 # Compression Extension for Adobe Brackets Javascript and CSS files. #
 
 This extension allows automatically compress javascript and css files using YUI compressor at work or when you want. 
 
 Select the "Compress on save" (or press `ctrl-alt-a`) to activate it.
-
-## Para instalar: ##
-
-1.- Abra el gestor de extensiones de Brackets.
-2.- Haga click en instalar desde una URL.
-3.- Copie el enlace [https://bitbucket.org/slorenzot/brackets-jscompressor/src/](https://bitbucket.org/slorenzot/brackets-jscompressor/src/) en el cuadro de texto.
-4.- Haga clic en Instalar.
-
-## Requerimientos ##
-
-Requiere tener instalada la JRE en el equipo.
-
-## Adobe Brackets ##
-
-## Compresor YUI - El compresor de Javscript y CSS de Yahoo!
-
-El YUI Compressor es un compresor de JavaScript que, además de la eliminación de comentarios y los espacios en blanco, ofusca variables locales utilizando el nombre de la variable más pequeña posible.
-
-El YUI Compressor también es capaz de comprimir los archivos CSS de forma segura. La decisión sobre el compresor se utiliza se hace sobre la extensión de archivo (js o css).
-
-Para más detalles acerca del Compresor YUI visite [https://github.com/yui/yuicompressor/](https://github.com/yui/yuicompressor/)
-
-## Adobe Brackets ##
-
-Brackets es un editor de código abierto para el diseño web y desarrollo construido sobre tecnologías web como HTML, CSS y JavaScript. El proyecto fue creado y es mantenido por Adobe, y se distribuye bajo una licencia MIT.
-
-
-Para más detalles acerca de Brackets visita [https://brackets.io](https://brackets.io)
-
--------------------------
-
-# Extension Adobe Brackets de compresión para archivos Javascript y CSS. #
-
-Esta extensión permite comprimir automáticamente los archivos javascript y css usando el compresor YUI mientras trabaja o cuando lo desee. 
-
-Seleccione la opción "Comprimir al guardar" (o presione `ctrl-alt-a) para activarlo.
-
 
 ## To install: ##
 
@@ -70,3 +34,40 @@ Brackets is an open-source editor for web design and development built on top of
 
 
 For more details about Brackets visit [https://brackets.io](https://brackets.io)
+
+------------------------------------------------
+
+
+# Extension Adobe Brackets de compresión para archivos Javascript y CSS. #
+
+Esta extensión permite comprimir automáticamente los archivos javascript y css usando el compresor YUI mientras trabaja o cuando lo desee. 
+
+Seleccione la opción "Comprimir al guardar" (o presione `ctrl-alt-a) para activarlo.
+
+## Para instalar: ##
+
+1.- Abra el gestor de extensiones de Brackets.
+2.- Haga click en instalar desde una URL.
+3.- Copie el enlace [https://bitbucket.org/slorenzot/brackets-jscompressor/src/](https://bitbucket.org/slorenzot/brackets-jscompressor/src/) en el cuadro de texto.
+4.- Haga clic en Instalar.
+
+## Requerimientos ##
+
+Requiere tener instalada la JRE en el equipo.
+
+## Adobe Brackets ##
+
+## Compresor YUI - El compresor de Javscript y CSS de Yahoo!
+
+El YUI Compressor es un compresor de JavaScript que, además de la eliminación de comentarios y los espacios en blanco, ofusca variables locales utilizando el nombre de la variable más pequeña posible.
+
+El YUI Compressor también es capaz de comprimir los archivos CSS de forma segura. La decisión sobre el compresor se utiliza se hace sobre la extensión de archivo (js o css).
+
+Para más detalles acerca del Compresor YUI visite [https://github.com/yui/yuicompressor/](https://github.com/yui/yuicompressor/)
+
+## Adobe Brackets ##
+
+Brackets es un editor de código abierto para el diseño web y desarrollo construido sobre tecnologías web como HTML, CSS y JavaScript. El proyecto fue creado y es mantenido por Adobe, y se distribuye bajo una licencia MIT.
+
+
+Para más detalles acerca de Brackets visita [https://brackets.io](https://brackets.io)
