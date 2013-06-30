@@ -29,26 +29,7 @@
 define(function (require, exports, module) {
     'use strict';
     
-    var _languages = {
-        "en": {
-            // commands
-            "CMD_COMPRESS_NOW"            : 'Compress',
-            "CMD_ACTIVE_COMPRESS_ON_SAVE" : 'Compress on save',
-            // dialogs
-            "DLG_LANGUAGE_DETECTED"       : '[{0}] Language detected: {1}'
-        },
-        "es": {
-            // commands
-            "CMD_COMPRESS_NOW"            : 'Comprimir',
-            "CMD_ACTIVE_COMPRESS_ON_SAVE" : "Comprimir al guardar",
-            // dialogs
-            "DLG_LANGUAGE_DETECTED"       : '[{0}] Idioma detectado: {1}'
-        }
-    };
-    
-    function getLanguage(id) {
-        return _languages[id];
-    }
-    
-    exports.Strings = getLanguage;
+    exports.EXTENSION_ID                      = "com.adobe.brackets.jscompressor";
+    exports.CMD_COMPRESS_NOW            = "jscompressor.cmd_compress_now";
+    exports.CMD_ACTIVE_COMPRESS_ON_SAVE = "jscompressor.cmd_autocompress_on_save";
 });

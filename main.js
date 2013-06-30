@@ -27,39 +27,45 @@
 
 define(function (require, exports, module) {
     'use strict';
-    var AppInit = brackets.getModule("utils/AppInit"),
-        ExtensionUtils = brackets.getModule("utils/ExtensionUtils"),
-        Dialogs = brackets.getModule("widgets/Dialogs"),
-        DocumentManager = brackets.getModule("document/DocumentManager"),
-        CommandManager = brackets.getModule("command/CommandManager"),
-        PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
-        ProjectManager = brackets.getModule("project/ProjectManager"),
-        Menus = brackets.getModule("command/Menus"),
-        NodeConnection = brackets.getModule("utils/NodeConnection");
+    var AppInit             = brackets.getModule("utils/AppInit"),
+        ExtensionUtils      = brackets.getModule("utils/ExtensionUtils"),
+        Dialogs             = brackets.getModule("widgets/Dialogs"),
+        DocumentManager     = brackets.getModule("document/DocumentManager"),
+        CommandManager      = brackets.getModule("command/CommandManager"),
+        PreferencesManager  = brackets.getModule("preferences/PreferencesManager"),
+        ProjectManager      = brackets.getModule("project/ProjectManager"),
+        StringUtils         = brackets.getModule("utils/StringUtils"),
+        Menus               = brackets.getModule("command/Menus"),
+        NodeConnection      = brackets.getModule("utils/NodeConnection");
     
-    var Languages = require("Strings"),
-        Shortcuts = require("Shortcuts");
+    var EXTENSION_ID                        = "com.adobe.brackets.jscompressor",
+        SET_AUTOCOMPRESS_ON_SAVE_ENABLED    = "bracketless.enabled",
+        settings                            = PreferencesManager.getPreferenceStorage(EXTENSION_ID);
         
-    var langs = Languages.Strings('es'),
-        projectMenu = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU),
-        workingsetMenu = Menus.getContextMenu(Menus.ContextMenuIds.WORKING_SET_MENU),
-        nodeConnection = null;
-            
-    var EXTENSION_ID = "com.adobe.brackets.jscompressor",
-        o = "bracketless.enabled",
-        prefStorage = PreferencesManager.getPreferenceStorage(EXTENSION_ID);
+    var projectMenu     = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU),
+        workingsetMenu  = Menus.getContextMenu(Menus.ContextMenuIds.WORKING_SET_MENU),
+        nodeConnection  = null;
+        
+    var Commands    = require('Commands'),
+        Languages   = require("Strings"),
+        Shortcuts   = require("Shortcuts");
+        
+    var langs       = Languages.Strings(brackets.app.language); // get app correct language
+    
+    console.log(StringUtils.format(langs.DLG_LANGUAGE_DETECTED, Commands.EXTENSION_ID, brackets.app.language));
     
     // get bracket jscompress full path
     function getExtensionPath() {
-        var selectedItem = ProjectManager.getSelectedItem();
-        var file_cwd = selectedItem.fullPath.split('/');
+        var selectedItem = ProjectManager.getSelectedItem(),
+            file_cwd = selectedItem.fullPath.split('/');
+            
         file_cwd.pop();
+        
         return file_cwd.join('/');
     }
     
     var jscompressor = {
         name: 'Brackets JSCompressor',
-        is_active_autocompress : prefStorage.getValue("enabled"),
         extensions: ["js", "css"],
         compressed_extension: "-min.",
         compressor_relpath: '/compressor/yuicompressor-2.4.2.jar',
@@ -105,8 +111,7 @@ define(function (require, exports, module) {
                 new_ext = jscompressor.compressed_extension + src.split('.').pop(), // only new extension file
                 dst = filename + new_ext; // compressed filepath (path + filename + new extension)
             
-            // var command = "/usr/bin/java -jar '" + compressor_path + "' -o '" + dst + "' '" + src + "'";
-            var command = "java -jar '" + compressor_path + "' -o '" + dst + "' '" + src + "'";
+            var command = StringUtils.format("java -jar '{0}' -o '{1}' '{2}'", compressor_path, dst, src);
             
             nodeConnection.domains.nodeexec.runScript(command, null, {
                 cwd: getExtensionPath()
@@ -114,34 +119,43 @@ define(function (require, exports, module) {
         }
     };
             
-    jscompressor.is_active_autocompress = prefStorage.getValue("enabled");
+//    jscompressor.is_active_autocompress = settings.getValue(SET_AUTOCOMPRESS_ON_SAVE_ENABLED);
             
     var autocompress_cmd, compressfile_cmd;
     
     // Regiter autocompress command
-    autocompress_cmd = CommandManager.register(langs.CMD_ACTIVE_COMPRESS_ON_SAVE, "ext.autocompress_cmd", function () {
-        jscompressor.is_active_autocompress = !jscompressor.is_active_autocompress;
-        var command = CommandManager.get("ext.autocompress_cmd");
-                
-        command.setChecked(jscompressor.is_active_autocompress);
-        prefStorage.setValue("enabled", jscompressor.is_active_autocompress);
-        PreferencesManager.savePreferences();
-    });
+    autocompress_cmd = CommandManager.register(
+        langs.CMD_ACTIVE_COMPRESS_ON_SAVE,
+        Commands.CMD_ACTIVE_COMPRESS_ON_SAVE,
+        function () {
+            var autocompress_isActive = settings.getValue(SET_AUTOCOMPRESS_ON_SAVE_ENABLED),
+                command = CommandManager.get(Commands.CMD_ACTIVE_COMPRESS_ON_SAVE);
+                    
+            settings.setValue(SET_AUTOCOMPRESS_ON_SAVE_ENABLED, !autocompress_isActive);
+            PreferencesManager.savePreferences();
+            
+            command.setChecked(jscompressor.is_active_autocompress);
+        }
+    );
     
     // Register compress file command
-    compressfile_cmd = CommandManager.register(langs.CMD_COMPRESS_NOW, "ext.compressfile_cmd", jscompressor.compressfile);
+    compressfile_cmd = CommandManager.register(
+        langs.CMD_COMPRESS_NOW,
+        Commands.CMD_COMPRESS_NOW,
+        jscompressor.compressfile
+    );
     
-    autocompress_cmd.setChecked(jscompressor.is_active_autocompress);
+    autocompress_cmd.setChecked(settings.getValue(SET_AUTOCOMPRESS_ON_SAVE_ENABLED));
     var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
     
     if (menu) {
         menu.addMenuDivider();
-        menu.addMenuItem("ext.autocompress_cmd", Shortcuts.allPlataforms.CMD_ACTIVE_COMPRESS_ON_SAVE);
+        menu.addMenuItem(Commands.CMD_ACTIVE_COMPRESS_ON_SAVE, Shortcuts.allPlataforms.CMD_ACTIVE_COMPRESS_ON_SAVE);
     }
                 
     if (projectMenu) {
         projectMenu.addMenuDivider();
-        projectMenu.addMenuItem("ext.compressfile_cmd", Shortcuts.allPlataforms.CMD_COMPRESS_NOW);
+        projectMenu.addMenuItem(Commands.CMD_COMPRESS_NOW, Shortcuts.allPlataforms.CMD_COMPRESS_NOW);
     }
     
     // after save document action
@@ -183,10 +197,10 @@ define(function (require, exports, module) {
         function connectNode() {
             var node = nodeConnection.connect(true);
             
-            console.info("[brackets-jscompressor] Connecting to NODE...");
+            console.info(StringUtils.format("[{0}] Connecting to NODE...", Commands.EXTENSION_ID));
             
             node.fail(function () {
-                console.error("[brackets-jscompressor] failed to connect to node");
+                console.error(StringUtils.format("[{0}] failed to connect to node", Commands.EXTENSION_ID));
             });
             
             return node;
@@ -198,29 +212,31 @@ define(function (require, exports, module) {
             var nodeDomains = nodeConnection.loadDomains([nodeModule], true);
             
             nodeDomains.fail(function () {
-                console.log("[brackets-jscompressor] failed to load node-exec domain");
+                console.log(StringUtils.format("[{0}] failed to load node-exec domain", Commands.EXTENSION_ID));
             });
             
-            console.info("[brackets-jscompressor] loaded " + nodeModule);
+            console.info(StringUtils.format("[{0}] loaded {1}", Commands.EXTENSION_ID, nodeModule));
             
             return nodeDomains;
         }
         
         // update status (working) function
         $(nodeConnection)
-            .on("nodeexec.update", function (domain, err) {
-                var error = JSON.parse(err); // parsing json from node js
+            .on("nodeexec.update", function (domain, response) {
+                var command = JSON.parse(response); // parsing json from node js
+                
+                console.log(command);
             
-                if (error.stderr) { // if compressing process fail
-                    console.error(error.stderr);
+                if (command.stderr || command.stdout) { // if compressing process fail
+                    console.error(StringUtils.format("[{0}] error: {1}", Commands.EXTENSION_ID, command.stderr || command.stdout));
                     
                     var dialog = Dialogs.showModalDialog(
                         Dialogs.DIALOG_ID_ERROR,
-                        "Error de construyendo de " + jscompressor.name,
-                        "Se generó el siguiente error: " + error.stderr
+                        StringUtils.format("Error de {0}", jscompressor.name),
+                        StringUtils.format("Se generó el siguiente error: {0}", command.stderr || command.stdout)
                     );
                 } else {
-                    console.info("[brackets-jscompressor] processed successful...");
+                    console.info(StringUtils.format("[{0}] processed successful...", Commands.EXTENSION_ID));
                 }
                 
                 ProjectManager.refreshFileTree(); // refresh file tree to see new file
