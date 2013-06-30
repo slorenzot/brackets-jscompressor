@@ -1,3 +1,5 @@
+JSCompressor Extension for Adobe Brackets
+=========================================
 
 # Compression Extension for Adobe Brackets Javascript and CSS files. #
 
@@ -15,7 +17,7 @@ Select the "Compress on save" (or press `ctrl-alt-a`) to activate it.
 
 ## Requirements ##
 
-Requires JRE be installed on the computer.
+Requires Java Runtime (JRE) be installed on the computer. Can download Java JRE from [http://www.java.com/es/download/](http://www.java.com/es/download/)
 
 
 ## YUI Compressor - The Yahoo! JavaScript and CSS Compressor ##
@@ -53,7 +55,7 @@ Seleccione la opción "Comprimir al guardar" (o presione `ctrl-alt-a) para activ
 
 ## Requerimientos ##
 
-Requiere tener instalada la JRE en el equipo.
+Requiere tener instalada la ambiente de ejecución de Java (JRE) en el equipo. Puede descargar Java desde [http://www.java.com/es/download/](http://www.java.com/es/download/)
 
 ## Adobe Brackets ##
 
