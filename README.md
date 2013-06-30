@@ -8,7 +8,7 @@ Select the "Compress on save" (or press `ctrl-alt-a`) to activate it.
 
 1.- Abra el gestor de extensiones de Brackets.
 2.- Haga click en instalar desde una URL.
-3.- Copie el enlace [https://bitbucket.org/slorenzot/brackets-jscompressor/src/][https://bitbucket.org/slorenzot/brackets-jscompressor/src/] en el cuadro de texto.
+3.- Copie el enlace [https://bitbucket.org/slorenzot/brackets-jscompressor/src/](https://bitbucket.org/slorenzot/brackets-jscompressor/src/) en el cuadro de texto.
 4.- Haga clic en Instalar.
 
 ## Requerimientos ##
@@ -23,14 +23,14 @@ El YUI Compressor es un compresor de JavaScript que, además de la eliminación 
 
 El YUI Compressor también es capaz de comprimir los archivos CSS de forma segura. La decisión sobre el compresor se utiliza se hace sobre la extensión de archivo (js o css).
 
-Para más detalles acerca del Compresor YUI visite [https://github.com/yui/yuicompressor/][https://github.com/yui/yuicompressor/]
+Para más detalles acerca del Compresor YUI visite [https://github.com/yui/yuicompressor/](https://github.com/yui/yuicompressor/)
 
 ## Adobe Brackets ##
 
 Brackets es un editor de código abierto para el diseño web y desarrollo construido sobre tecnologías web como HTML, CSS y JavaScript. El proyecto fue creado y es mantenido por Adobe, y se distribuye bajo una licencia MIT.
 
 
-Para más detalles acerca de Brackets visita [https://brackets.io][https://brackets.io]
+Para más detalles acerca de Brackets visita [https://brackets.io](https://brackets.io)
 
 -------------------------
 
@@ -45,7 +45,7 @@ Seleccione la opción "Comprimir al guardar" (o presione `ctrl-alt-a) para activ
 
 1.- Open Brackets extensions manager.
 2.- Click Install from a URL.
-3.- Copy this link [https://bitbucket.org/slorenzot/brackets-jscompressor/src/][https://bitbucket.org/slorenzot/brackets-jscompressor/src/] in the text box.
+3.- Copy this link [https://bitbucket.org/slorenzot/brackets-jscompressor/src/](https://bitbucket.org/slorenzot/brackets-jscompressor/src/) in the text box.
 4.- Click Install.
 
 
@@ -61,7 +61,7 @@ The YUI Compressor is a JavaScript compressor which, in addition to removing com
 The YUI Compressor is also able to safely compress CSS files. The decision on which compressor is being used is made on the file extension (js or css).
 
 
-For more details about the YUI Compressor visit [https://github.com/yui/yuicompressor/][https://github.com/yui/yuicompressor/]
+For more details about the YUI Compressor visit [https://github.com/yui/yuicompressor/](https://github.com/yui/yuicompressor/)
 
 
 ## Adobe Brackets ##
@@ -69,4 +69,4 @@ For more details about the YUI Compressor visit [https://github.com/yui/yuicompr
 Brackets is an open-source editor for web design and development built on top of web technologies such as HTML, CSS and JavaScript. The project was created and is maintained by Adobe, and is released under an MIT License.
 
 
-For more details about Brackets visit [https://brackets.io][https://brackets.io]
+For more details about Brackets visit [https://brackets.io](https://brackets.io)
