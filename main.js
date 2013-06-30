@@ -52,7 +52,7 @@ define(function (require, exports, module) {
         
     var langs       = Languages.Strings(brackets.app.language); // get app correct language
     
-    console.log(StringUtils.format(langs.DLG_LANGUAGE_DETECTED, Commands.EXTENSION_ID, brackets.app.language));
+    console.log(StringUtils.format(langs.DBG_LANGUAGE_DETECTED, Commands.EXTENSION_ID, brackets.app.language));
     
     // get bracket jscompress full path
     function getExtensionPath() {
@@ -78,17 +78,26 @@ define(function (require, exports, module) {
             if (!jreInstalled) {
                 var dialog = Dialogs.showModalDialog(
                     Dialogs.DIALOG_ID_ERROR,
-                    jscompressor.name + ": JRE no está instalado ",
-                    "No se encontró ninguna instalación de la JRE de Java. Este es un requisito indispensable para la extensión brackets-jscompressor.<br><br>Si desea descargar e instalar la JRE de Java haga clic <a target=\"new\" href=\"http://www.java.com/es/download/\">aquí</a>."
+                    StringUtils.format(langs.DLG_JRE_NOT_FOUND_TITLE, Commands.EXTENSION_ID),
+                    StringUtils.format(langs.DLG_JRE_NOT_FOUND_MSG, 'href=\"http://www.java.com/es/download/')
                 );
             }
             
             return jreInstalled;
         },
         isJREInstalled: function () {
-//            nodeConnection.domains.nodeexec.runScript("which java", null, {
+//            var node = (new NodeConnection()).connect(true);
+//            
+//            node.domains.nodeexec.runScript("which java", null, {
 //                cwd: this.getExtensionPath()
 //            });
+//            
+//            $(node)
+//                .on("nodeexec.update", function (domain, response) {
+//                    var command = JSON.parse(response); // parsing json from node js
+//                    
+//                    console.log(command);
+//                });
             return true;
         },
         autocompress: function () {
@@ -197,7 +206,7 @@ define(function (require, exports, module) {
         function connectNode() {
             var node = nodeConnection.connect(true);
             
-            console.info(StringUtils.format("[{0}] Connecting to NODE...", Commands.EXTENSION_ID));
+            console.info(StringUtils.format(langs.DBG_CONNECTING_TO_NODE, Commands.EXTENSION_ID));
             
             node.fail(function () {
                 console.error(StringUtils.format("[{0}] failed to connect to node", Commands.EXTENSION_ID));
@@ -215,7 +224,7 @@ define(function (require, exports, module) {
                 console.log(StringUtils.format("[{0}] failed to load node-exec domain", Commands.EXTENSION_ID));
             });
             
-            console.info(StringUtils.format("[{0}] loaded {1}", Commands.EXTENSION_ID, nodeModule));
+            console.info(StringUtils.format(langs.DBG_CONNECTION_TO_NODE_SUCCESS, Commands.EXTENSION_ID, nodeModule));
             
             return nodeDomains;
         }
@@ -244,5 +253,7 @@ define(function (require, exports, module) {
         
         // load in chain
         chain(connectNode, loadNodeModule);
+        
+        jscompressor.checkJREInstall();
     });
 });
