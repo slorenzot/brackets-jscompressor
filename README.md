@@ -34,6 +34,10 @@ Brackets is an open-source editor for web design and development built on top of
 
 For more details about Brackets visit [https://brackets.io](https://brackets.io)
 
+###Contact info:
+* Twitter: @slorenzot
+* Email: slorenzot@gmail.com
+
 ------------------------------------------------
 
 
@@ -52,7 +56,7 @@ Esta extensión permite comprimir automáticamente los archivos javascript y css
 
 Requiere tener instalada la ambiente de ejecución de Java (JRE) en el equipo. Puede descargar Java desde [http://www.java.com/es/download/](http://www.java.com/es/download/)
 
-## Compresor YUI - El compresor de Javscript y CSS de Yahoo!
+###Compresor YUI - El compresor de Javscript y CSS de Yahoo!
 
 El YUI Compressor es un compresor de JavaScript que, además de la eliminación de comentarios y los espacios en blanco, ofusca variables locales utilizando el nombre de la variable más pequeña posible.
 
@@ -66,3 +70,8 @@ Brackets es un editor de código abierto para el diseño web y desarrollo constr
 
 
 Para más detalles acerca de Brackets visita [https://brackets.io](https://brackets.io)
+
+
+###Información de contacto:
+* Twitter: @slorenzot
+* Email: slorenzot@gmail.com
