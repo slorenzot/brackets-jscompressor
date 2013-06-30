@@ -4,8 +4,6 @@
 
 This extension allows automatically compress javascript and css files using YUI compressor at work or when you want. 
 
-Select the "Compress on save" (or press `ctrl-alt-a`) to activate it.
-
 ### To install:
 
 1.- Open Brackets extensions manager.
@@ -42,8 +40,6 @@ For more details about Brackets visit [https://brackets.io](https://brackets.io)
 ##Extension Adobe Brackets de compresión para archivos Javascript y CSS.
 
 Esta extensión permite comprimir automáticamente los archivos javascript y css usando el compresor YUI mientras trabaja o cuando lo desee. 
-
-Seleccione la opción "Comprimir al guardar" (o presione `ctrl-alt-a) para activarlo.
 
 ###Para instalar:
 
