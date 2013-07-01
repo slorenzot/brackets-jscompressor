@@ -29,14 +29,10 @@
 define(function (require, exports, module) {
     'use strict';
     
-    var allPlataforms = {
+    var allPlatforms = {
         CMD_COMPRESS_NOW            : "Ctrl-Alt-C",
         CMD_ACTIVE_COMPRESS_ON_SAVE : "Ctrl-Alt-A"
     };
     
-    function getShortcut(id) {
-        // return shortcuts[id];
-    }
-    
-    exports.allPlataforms = allPlataforms;
+    exports.allPlatforms = allPlatforms;
 });

@@ -42,7 +42,8 @@ define(function (require, exports, module) {
         SET_AUTOCOMPRESS_ON_SAVE_ENABLED    = "bracketless.enabled",
         settings                            = PreferencesManager.getPreferenceStorage(EXTENSION_ID);
         
-    var projectMenu     = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU),
+    var menu            = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU),
+        projectMenu     = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU),
         workingsetMenu  = Menus.getContextMenu(Menus.ContextMenuIds.WORKING_SET_MENU),
         nodeConnection  = null;
         
@@ -154,17 +155,16 @@ define(function (require, exports, module) {
         jscompressor.compressfile
     );
     
-    autocompress_cmd.setChecked(settings.getValue(SET_AUTOCOMPRESS_ON_SAVE_ENABLED));
-    var menu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);
+    autocompress_cmd.setChecked(settings.getValue(SET_AUTOCOMPRESS_ON_SAVE_ENABLED)); // enable autocompress
     
     if (menu) {
         menu.addMenuDivider();
-        menu.addMenuItem(Commands.CMD_ACTIVE_COMPRESS_ON_SAVE, Shortcuts.allPlataforms.CMD_ACTIVE_COMPRESS_ON_SAVE);
+        menu.addMenuItem(Commands.CMD_ACTIVE_COMPRESS_ON_SAVE, Shortcuts.allPlatforms.CMD_ACTIVE_COMPRESS_ON_SAVE);
     }
                 
     if (projectMenu) {
         projectMenu.addMenuDivider();
-        projectMenu.addMenuItem(Commands.CMD_COMPRESS_NOW, Shortcuts.allPlataforms.CMD_COMPRESS_NOW);
+        projectMenu.addMenuItem(Commands.CMD_COMPRESS_NOW, Shortcuts.allPlatforms.CMD_COMPRESS_NOW);
     }
     
     // after save document action
@@ -177,13 +177,14 @@ define(function (require, exports, module) {
     // before create context menu in left tree file viewer
     $(projectMenu).on("beforeContextMenuOpen", function (event) {
         var selectedItem = ProjectManager.getSelectedItem();
+        
         compressfile_cmd.setEnabled(false);
         
         if (selectedItem.isFile && /^(\w+)(\.(js|css))$/.test(selectedItem.name)) {
             compressfile_cmd.setEnabled(true);
         }
     });
-            
+    
     function chain() {
         var functions = Array.prototype.slice.call(arguments, 0);
         
@@ -197,12 +198,15 @@ define(function (require, exports, module) {
         }
     }
     
-//    console.log(String);
-    
     // extension main function
     AppInit.appReady(function () {
         nodeConnection = new NodeConnection(); // connect NodeJS
         
+        if (!jscompressor.checkJREInstall()) {
+            return;
+        }
+        
+        // connect to Node
         function connectNode() {
             var node = nodeConnection.connect(true);
             
@@ -253,7 +257,5 @@ define(function (require, exports, module) {
         
         // load in chain
         chain(connectNode, loadNodeModule);
-        
-        jscompressor.checkJREInstall();
     });
 });
