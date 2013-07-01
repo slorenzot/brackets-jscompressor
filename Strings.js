@@ -39,9 +39,14 @@ define(function (require, exports, module) {
             "DBG_CONNECTING_TO_NODE_FAIL"       : "[{0}] Failed to connect to NODE",
             "DBG_CONNECTION_TO_NODE_SUCCESS"    : "[{0}] Successful connecting to NODE {1}",
             "DBG_LANGUAGE_DETECTED"             : '[{0}] Language detected: {1}',
+            "DBG_TO_LOAD_NODEEXEC_DOMAIN"       : "[{0}] failed to load node-exec domain",
+            "DBG_GENERIC_ERROR"                 : "[{0}] error: {1}",
+            "DBG_BUILD_SUCCESSFUL"              : "[{0}] building successful...",
             //
             "DLG_JRE_NOT_FOUND_TITLE"           : '[{0}]: JRE not found',
-            "DLG_JRE_NOT_FOUND_MSG"             : 'Did not find any installation of Java JRE. This is a prerequisite for the extension brackets-jscompressor. <br> <br> If you want to download and install the Java JRE <a target=\"new\" href=\"{0}\"> click here </ a>.'
+            "DLG_JRE_NOT_FOUND_MSG"             : 'Did not find any installation of Java JRE. This is a prerequisite for the extension brackets-jscompressor. <br> <br> If you want to download and install the Java JRE <a target=\"new\" href=\"{0}\"> click here </ a>.',
+            "DLG_ERROR_BUILDING_TITLE"          : "{0} Error",
+            "DLG_ERROR_BUILDING_MSG"            : "Error building compress file: {0}"
         },
         'es': {
             // commands
@@ -52,9 +57,14 @@ define(function (require, exports, module) {
             "DBG_CONNECTING_TO_NODE_FAIL"       : "[{0}] Falló la conexión con NODE",
             "DBG_CONNECTION_TO_NODE_SUCCESS"    : "[{0}] Éxito conectando con NODE {1}",
             "DBG_LANGUAGE_DETECTED"             : '[{0}] Idioma detectado: {1}',
+            "DBG_TO_LOAD_NODEEXEC_DOMAIN"       : "[{0}] Falló al cargar el dominio node-exec",
+            "DBG_GENERIC_ERROR"                 : "[{0}] error: {1}",
+            "DBG_BUILD_SUCCESSFUL"              : "[{0}] construcción exitosa...",
             //
             "DLG_JRE_NOT_FOUND_TITLE"           : '[{0}]: JRE no encontrado',
-            "DLG_JRE_NOT_FOUND_MSG"             : 'No se encontró ninguna instalación de la JRE de Java. Este es un requisito indispensable para la extensión brackets-jscompressor.<br><br>Si desea descargar e instalar la JRE de Java haga clic <a target=\"new\" href=\"{0}\"> aquí </a>.'
+            "DLG_JRE_NOT_FOUND_MSG"             : 'No se encontró ninguna instalación de la JRE de Java. Este es un requisito indispensable para la extensión brackets-jscompressor.<br><br>Si desea descargar e instalar la JRE de Java haga clic <a target=\"new\" href=\"{0}\"> aquí </a>.',
+            "DLG_ERROR_BUILDING_TITLE"          : "Error de {0}",
+            "DLG_ERROR_BUILDING_MSG"            : "Error construyendo el archivo comprimido: {0}"
         }
     };
     

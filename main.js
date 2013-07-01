@@ -213,7 +213,7 @@ define(function (require, exports, module) {
             console.info(StringUtils.format(langs.DBG_CONNECTING_TO_NODE, Commands.EXTENSION_ID));
             
             node.fail(function () {
-                console.error(StringUtils.format("[{0}] failed to connect to node", Commands.EXTENSION_ID));
+                console.error(StringUtils.format(langs.DBG_CONNECTING_TO_NODE, Commands.EXTENSION_ID));
             });
             
             return node;
@@ -225,7 +225,7 @@ define(function (require, exports, module) {
             var nodeDomains = nodeConnection.loadDomains([nodeModule], true);
             
             nodeDomains.fail(function () {
-                console.log(StringUtils.format("[{0}] failed to load node-exec domain", Commands.EXTENSION_ID));
+                console.log(StringUtils.format(langs.DBG_TO_LOAD_NODEEXEC_DOMAIN, Commands.EXTENSION_ID));
             });
             
             console.info(StringUtils.format(langs.DBG_CONNECTION_TO_NODE_SUCCESS, Commands.EXTENSION_ID, nodeModule));
@@ -241,15 +241,15 @@ define(function (require, exports, module) {
                 console.log(command);
             
                 if (command.stderr || command.stdout) { // if compressing process fail
-                    console.error(StringUtils.format("[{0}] error: {1}", Commands.EXTENSION_ID, command.stderr || command.stdout));
+                    console.error(StringUtils.format(langs.DBG_GENERIC_ERROR, Commands.EXTENSION_ID, command.stderr || command.stdout));
                     
                     var dialog = Dialogs.showModalDialog(
                         Dialogs.DIALOG_ID_ERROR,
-                        StringUtils.format("Error de {0}", jscompressor.name),
-                        StringUtils.format("Se generó el siguiente error: {0}", command.stderr || command.stdout)
+                        StringUtils.format(langs.DLG_ERROR_BUILDING_TITLE, jscompressor.name),
+                        StringUtils.format(langs.DLG_ERROR_BUILDING_MSG, command.stderr || command.stdout)
                     );
                 } else {
-                    console.info(StringUtils.format("[{0}] processed successful...", Commands.EXTENSION_ID));
+                    console.info(StringUtils.format(langs.DBG_BUILD_SUCCESSFUL, Commands.EXTENSION_ID));
                 }
                 
                 ProjectManager.refreshFileTree(); // refresh file tree to see new file
