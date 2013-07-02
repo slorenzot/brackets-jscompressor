@@ -29,7 +29,9 @@
 define(function (require, exports, module) {
     'use strict';
     
-    exports.EXTENSION_ID                      = "com.adobe.brackets.jscompressor";
-    exports.CMD_COMPRESS_NOW            = "jscompressor.cmd_compress_now";
-    exports.CMD_ACTIVE_COMPRESS_ON_SAVE = "jscompressor.cmd_autocompress_on_save";
+    exports.EXTENSION_ID                = "com.adobe.brackets-jscompressor";
+    exports.SET_AUTOCOMPRESS_ON_SAVE_ENABLED = "com.adobe.brackets-compressor.automcompress_enabled";
+    
+    exports.CMD_COMPRESS_NOW            = "brackets-jscompressor.cmd_compress_now";
+    exports.CMD_ACTIVE_COMPRESS_ON_SAVE = "brackets-jscompressor.cmd_autocompress_on_save";
 });

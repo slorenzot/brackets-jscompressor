@@ -37,10 +37,6 @@ define(function (require, exports, module) {
         StringUtils         = brackets.getModule("utils/StringUtils"),
         Menus               = brackets.getModule("command/Menus"),
         NodeConnection      = brackets.getModule("utils/NodeConnection");
-    
-    var EXTENSION_ID                        = "com.adobe.brackets.jscompressor",
-        SET_AUTOCOMPRESS_ON_SAVE_ENABLED    = "bracketless.enabled",
-        settings                            = PreferencesManager.getPreferenceStorage(EXTENSION_ID);
         
     var menu            = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU),
         projectMenu     = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU),
@@ -48,12 +44,17 @@ define(function (require, exports, module) {
         nodeConnection  = null;
         
     var Commands    = require('Commands'),
-        Languages   = require("Strings"),
-        Shortcuts   = require("Shortcuts");
-        
-    var langs       = Languages.Strings(brackets.app.language); // get app correct language
+        Languages   = require('Strings'),
+        Shortcuts   = require('Shortcuts');
     
+    var langs       = Languages.Strings(brackets.app.language); // get app correct language
     console.log(StringUtils.format(langs.DBG_LANGUAGE_DETECTED, Commands.EXTENSION_ID, brackets.app.language));
+    
+    var settings    = PreferencesManager.getPreferenceStorage(Commands.EXTENSION_ID);
+    
+//    var NodeManager = require('NodeManager');
+//    NodeManager.connect();
+//    NodeManager.loadModule('node/NodeExecDomain');
     
     // get bracket jscompress full path
     function getExtensionPath() {
@@ -87,10 +88,11 @@ define(function (require, exports, module) {
             return jreInstalled;
         },
         isJREInstalled: function () {
-//            var node = (new NodeConnection()).connect(true);
+//            var node = new NodeConnection(),
+//                connection = node.connect(true);
 //            
 //            node.domains.nodeexec.runScript("which java", null, {
-//                cwd: this.getExtensionPath()
+//                cwd: getExtensionPath()
 //            });
 //            
 //            $(node)
@@ -138,10 +140,10 @@ define(function (require, exports, module) {
         langs.CMD_ACTIVE_COMPRESS_ON_SAVE,
         Commands.CMD_ACTIVE_COMPRESS_ON_SAVE,
         function () {
-            var autocompress_isActive = settings.getValue(SET_AUTOCOMPRESS_ON_SAVE_ENABLED),
+            var autocompress_isActive = settings.getValue(Commands.SET_AUTOCOMPRESS_ON_SAVE_ENABLED),
                 command = CommandManager.get(Commands.CMD_ACTIVE_COMPRESS_ON_SAVE);
                     
-            settings.setValue(SET_AUTOCOMPRESS_ON_SAVE_ENABLED, !autocompress_isActive);
+            settings.setValue(Commands.SET_AUTOCOMPRESS_ON_SAVE_ENABLED, !autocompress_isActive);
             PreferencesManager.savePreferences();
             
             command.setChecked(jscompressor.is_active_autocompress);
@@ -155,7 +157,7 @@ define(function (require, exports, module) {
         jscompressor.compressfile
     );
     
-    autocompress_cmd.setChecked(settings.getValue(SET_AUTOCOMPRESS_ON_SAVE_ENABLED)); // enable autocompress
+    autocompress_cmd.setChecked(settings.getValue(Commands.SET_AUTOCOMPRESS_ON_SAVE_ENABLED)); // enable autocompress
     
     if (menu) {
         menu.addMenuDivider();
@@ -263,5 +265,7 @@ define(function (require, exports, module) {
         
         // load in chain
         chain(connectNode, loadNodeModule);
+        
+        jscompressor.isJREInstalled();
     });
 });
