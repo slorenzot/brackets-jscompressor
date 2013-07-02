@@ -212,9 +212,13 @@ define(function (require, exports, module) {
             
             console.info(StringUtils.format(langs.DBG_CONNECTING_TO_NODE, Commands.EXTENSION_ID));
             
-            node.fail(function () {
-                console.error(StringUtils.format(langs.DBG_CONNECTING_TO_NODE, Commands.EXTENSION_ID));
-            });
+            node
+                .fail(function () {
+                    console.error(StringUtils.format(langs.DBG_CONNECTING_TO_NODE_FAIL, Commands.EXTENSION_ID));
+                })
+                .done(function () {
+                    console.info(StringUtils.format(langs.DBG_CONNECTION_TO_NODE_SUCCESS, Commands.EXTENSION_ID));
+                });
             
             return node;
         }
@@ -224,11 +228,13 @@ define(function (require, exports, module) {
             var nodeModule = ExtensionUtils.getModulePath(module, 'node/NodeExecDomain');
             var nodeDomains = nodeConnection.loadDomains([nodeModule], true);
             
-            nodeDomains.fail(function () {
-                console.log(StringUtils.format(langs.DBG_TO_LOAD_NODEEXEC_DOMAIN, Commands.EXTENSION_ID));
-            });
-            
-            console.info(StringUtils.format(langs.DBG_CONNECTION_TO_NODE_SUCCESS, Commands.EXTENSION_ID, nodeModule));
+            nodeDomains
+                .fail(function () {
+                    console.log(StringUtils.format(langs.DBG_TO_LOAD_NODEEXEC_DOMAIN_ERROR, Commands.EXTENSION_ID, nodeModule));
+                })
+                .done(function () {
+                    console.info(StringUtils.format(langs.DBG_TO_LOAD_NODEEXEC_DOMAIN_SUCCESS, Commands.EXTENSION_ID, nodeModule));
+                });
             
             return nodeDomains;
         }

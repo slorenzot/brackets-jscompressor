@@ -39,7 +39,8 @@ define(function (require, exports, module) {
             "DBG_CONNECTING_TO_NODE_FAIL"       : "[{0}] Failed to connect to NODE",
             "DBG_CONNECTION_TO_NODE_SUCCESS"    : "[{0}] Successful connecting to NODE {1}",
             "DBG_LANGUAGE_DETECTED"             : '[{0}] Language detected: {1}',
-            "DBG_TO_LOAD_NODEEXEC_DOMAIN"       : "[{0}] failed to load node-exec domain",
+            "DBG_TO_LOAD_NODEEXEC_DOMAIN_SUCCESS" : "[{0}] Success to load node-exec domain {1}",
+            "DBG_TO_LOAD_NODEEXEC_DOMAIN_ERROR" : "[{0}] failed to load node-exec domain {1}",
             "DBG_GENERIC_ERROR"                 : "[{0}] error: {1}",
             "DBG_BUILD_SUCCESSFUL"              : "[{0}] building successful...",
             //
@@ -57,7 +58,8 @@ define(function (require, exports, module) {
             "DBG_CONNECTING_TO_NODE_FAIL"       : "[{0}] Falló la conexión con NODE",
             "DBG_CONNECTION_TO_NODE_SUCCESS"    : "[{0}] Éxito conectando con NODE {1}",
             "DBG_LANGUAGE_DETECTED"             : '[{0}] Idioma detectado: {1}',
-            "DBG_TO_LOAD_NODEEXEC_DOMAIN"       : "[{0}] Falló al cargar el dominio node-exec",
+            "DBG_TO_LOAD_NODEEXEC_DOMAIN_SUCCESS" : "[{0}] Éxito al cargar el nodo de ejecución {1}",
+            "DBG_TO_LOAD_NODEEXEC_DOMAIN_ERROR" : "[{0}] Falló al cargar el dominio node-exec",
             "DBG_GENERIC_ERROR"                 : "[{0}] error: {1}",
             "DBG_BUILD_SUCCESSFUL"              : "[{0}] construcción exitosa...",
             //
