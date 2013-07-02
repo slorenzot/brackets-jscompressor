@@ -6,10 +6,10 @@ This extension allows automatically compress javascript and css files using YUI 
 
 ### To install:
 
-1.- Open Brackets extensions manager.
-2.- Click Install from a URL.
-3.- Copy this link [https://bitbucket.org/slorenzot/brackets-jscompressor/src/](https://bitbucket.org/slorenzot/brackets-jscompressor/src/) in the text box.
-4.- Click Install.
+* Open Brackets extensions manager.
+* Click Install from a URL.
+* Copy this link [https://bitbucket.org/slorenzot/brackets-jscompressor/src/](https://bitbucket.org/slorenzot/brackets-jscompressor/src/) in the text box.
+* Click Install.
 
 
 ###Requirements
@@ -47,10 +47,10 @@ Esta extensión permite comprimir automáticamente los archivos javascript y css
 
 ###Para instalar:
 
-1.- Abra el gestor de extensiones de Brackets.
-2.- Haga click en instalar desde una URL.
-3.- Copie el enlace [https://bitbucket.org/slorenzot/brackets-jscompressor/src/](https://bitbucket.org/slorenzot/brackets-jscompressor/src/) en el cuadro de texto.
-4.- Haga clic en Instalar.
+* Abra el gestor de extensiones de Brackets.
+* Haga click en instalar desde una URL.
+* Copie el enlace [https://bitbucket.org/slorenzot/brackets-jscompressor/src/](https://bitbucket.org/slorenzot/brackets-jscompressor/src/) en el cuadro de texto.
+* Haga clic en Instalar.
 
 ###Requerimientos
 
