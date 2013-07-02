@@ -59,7 +59,7 @@ define(function (require, exports, module) {
             "DBG_CONNECTION_TO_NODE_SUCCESS"    : "[{0}] Éxito conectando con NODE",
             "DBG_LANGUAGE_DETECTED"             : '[{0}] Idioma detectado: {1}',
             "DBG_TO_LOAD_NODEEXEC_DOMAIN_SUCCESS" : "[{0}] Éxito al cargar el nodo de ejecución {1}",
-            "DBG_TO_LOAD_NODEEXEC_DOMAIN_ERROR" : "[{0}] Falló al cargar el dominio node-exec",
+            "DBG_TO_LOAD_NODEEXEC_DOMAIN_ERROR" : "[{0}] Falló al cargar el dominio node-exec {1}",
             "DBG_GENERIC_ERROR"                 : "[{0}] error: {1}",
             "DBG_BUILD_SUCCESSFUL"              : "[{0}] construcción exitosa...",
             //

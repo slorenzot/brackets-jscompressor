@@ -38,7 +38,7 @@ define(function (require, exports, module) {
         Menus               = brackets.getModule("command/Menus"),
         NodeConnection      = brackets.getModule("utils/NodeConnection");
         
-    var menu            = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU),
+    var appMenu            = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU),
         projectMenu     = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU),
         workingsetMenu  = Menus.getContextMenu(Menus.ContextMenuIds.WORKING_SET_MENU),
         nodeConnection  = null;
@@ -54,7 +54,7 @@ define(function (require, exports, module) {
     
 //    var NodeManager = require('NodeManager');
 //    NodeManager.connect();
-//    NodeManager.loadModule('node/NodeExecDomain');
+//    NodeManager.load('node/NodeExecDomain');
     
     // get bracket jscompress full path
     function getExtensionPath() {
@@ -130,9 +130,10 @@ define(function (require, exports, module) {
             });
         }
     };
-            
-//    jscompressor.is_active_autocompress = settings.getValue(SET_AUTOCOMPRESS_ON_SAVE_ENABLED);
-            
+    
+    /**
+     * Register commands
+     */
     var autocompress_cmd, compressfile_cmd;
     
     // Regiter autocompress command
@@ -157,11 +158,12 @@ define(function (require, exports, module) {
         jscompressor.compressfile
     );
     
+    // active settings saved previous brackets runnings
     autocompress_cmd.setChecked(settings.getValue(Commands.SET_AUTOCOMPRESS_ON_SAVE_ENABLED)); // enable autocompress
     
-    if (menu) {
-        menu.addMenuDivider();
-        menu.addMenuItem(Commands.CMD_ACTIVE_COMPRESS_ON_SAVE, Shortcuts.allPlatforms.CMD_ACTIVE_COMPRESS_ON_SAVE);
+    if (appMenu) {
+        appMenu.addMenuDivider();
+        appMenu.addMenuItem(Commands.CMD_ACTIVE_COMPRESS_ON_SAVE, Shortcuts.allPlatforms.CMD_ACTIVE_COMPRESS_ON_SAVE);
     }
                 
     if (projectMenu) {

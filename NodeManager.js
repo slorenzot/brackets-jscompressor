@@ -35,20 +35,17 @@ define(function (require, exports, module) {
         Commands        = require('Commands'),
         Languages       = require("Strings");
     
-    var nodeConnection  = null,
-        node            = null,
-        nodeModule      = null,
-        nodeDomains     = null,
+    var _nodeConnection  = null,
+        _node            = null,
         langs           = Languages.Strings(brackets.app.language); // get app correct language
     
-//    exports
      // connect to Node
     function connectNode() {
-        node = nodeConnection.connect(true);
+        _node = _nodeConnection.connect(true);
         
         console.info(StringUtils.format(langs.DBG_CONNECTING_TO_NODE, Commands.EXTENSION_ID));
         
-        node
+        _node
             .fail(function () {
                 console.error(StringUtils.format(langs.DBG_CONNECTING_TO_NODE_FAIL, Commands.EXTENSION_ID));
             })
@@ -56,34 +53,35 @@ define(function (require, exports, module) {
                 console.info(StringUtils.format(langs.DBG_CONNECTION_TO_NODE_SUCCESS, Commands.EXTENSION_ID));
             });
         
-        return node;
+        return _node;
     }
     
     // load NodeJS module
     function loadNodeModule(nodeExecDomain) {
-        nodeModule = ExtensionUtils.getModulePath(module, nodeExecDomain);
-        nodeDomains = nodeConnection.loadDomains([nodeModule], true);
+        var nodepath = ExtensionUtils.getModulePath(module, nodeExecDomain),
+            nodeDomains = _nodeConnection.loadDomains([nodepath], true);
         
         nodeDomains
             .fail(function () {
                 console.log(StringUtils.format(
                     langs.DBG_TO_LOAD_NODEEXEC_DOMAIN_ERROR,
                     Commands.EXTENSION_ID,
-                    nodeModule
+                    nodepath
                 ));
             })
             .done(function () {
                 console.info(StringUtils.format(
                     langs.DBG_TO_LOAD_NODEEXEC_DOMAIN_SUCCESS,
                     Commands.EXTENSION_ID,
-                    nodeModule
+                    nodepath
                 ));
             });
         
         return nodeDomains;
     }
     
-    function chain() {
+    // private function for chaining process (functions)
+    function _chain() {
         var functions = Array.prototype.slice.call(arguments, 0);
         
         if (functions.length > 0) {
@@ -91,14 +89,19 @@ define(function (require, exports, module) {
                 callee = currentFunction.call();
 
             callee.done(function () {
-                chain.apply(null, functions);
+                _chain.apply(null, functions);
             });
         }
     }
     
-    nodeConnection = new NodeConnection(); // connect NodeJS
+    _nodeConnection = new NodeConnection(); // connect NodeJS
     
-    exports.node = node;
-    exports.loadModule = loadNodeModule;
+    function getNode(nodeExec) {
+        _chain(connectNode, loadNodeModule);
+    }
+    
+    exports.node = _node;
+    exports.load = loadNodeModule;
     exports.connect = connectNode;
+    exports.getNode = getNode;
 });
