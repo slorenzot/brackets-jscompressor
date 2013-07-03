@@ -6,10 +6,6 @@
     "version": "0.0.1",
     "author": "Soulberto Lorenzo <slorenzot@gmail.com>",
     "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git@bitbucket.org:slorenzot/brackets-jscompressor.git"
-    }
     "engines": {
         "brackets": ">=0.24.0"
     }
