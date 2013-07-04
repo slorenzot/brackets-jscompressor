@@ -31,6 +31,7 @@ define(function (require, exports, module) {
     'use strict';
     var AppInit             = brackets.getModule("utils/AppInit"),
         ExtensionUtils      = brackets.getModule("utils/ExtensionUtils"),
+        ExtensionLoader     = brackets.getModule("utils/ExtensionLoader"),
         Dialogs             = brackets.getModule("widgets/Dialogs"),
         DocumentManager     = brackets.getModule("document/DocumentManager"),
         CommandManager      = brackets.getModule("command/CommandManager"),
@@ -72,9 +73,9 @@ define(function (require, exports, module) {
         name: 'Brackets JSCompressor',
         extensions: ["js", "css"],
         compressed_extension: "-min.",
-        compressor_relpath: '/compressor/yuicompressor-2.4.2.jar',
+        compressor_relpath: '/brackets-jscompressor/compressor/yuicompressor-2.4.2.jar',
         getCompressorPath: function () {
-            return getExtensionPath() + this.compressor_relpath;
+            return ExtensionLoader.getUserExtensionPath() + this.compressor_relpath;
         },
         checkJREInstall: function () {
             var jreInstalled = jscompressor.isJREInstalled();
