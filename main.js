@@ -165,13 +165,12 @@ define(function (require, exports, module) {
     autocompress_cmd.setChecked(settings.getValue(Commands.SET_AUTOCOMPRESS_ON_SAVE_ENABLED)); // enable autocompress
     
     if (appMenu) {
-        appMenu.addMenuDivider();
-        appMenu.addMenuItem(Commands.CMD_ACTIVE_COMPRESS_ON_SAVE, Shortcuts.allPlatforms.CMD_ACTIVE_COMPRESS_ON_SAVE);
-    }
-                
-    if (projectMenu) {
-        projectMenu.addMenuDivider();
-        projectMenu.addMenuItem(Commands.CMD_COMPRESS_NOW, Shortcuts.allPlatforms.CMD_COMPRESS_NOW);
+//        appMenu.addMenuDivider();
+        appMenu.addMenuItem(
+            Commands.CMD_ACTIVE_COMPRESS_ON_SAVE,
+            Shortcuts.allPlatforms.CMD_ACTIVE_COMPRESS_ON_SAVE,
+            appMenu.LAST_IN_SECTION
+        );
     }
     
     // after save document action
@@ -185,10 +184,15 @@ define(function (require, exports, module) {
     $(projectMenu).on("beforeContextMenuOpen", function (event) {
         var selectedItem = ProjectManager.getSelectedItem();
         
-        compressfile_cmd.setEnabled(false);
+//        compressfile_cmd.setEnabled(false);
+        projectMenu.removeMenuItem(Commands.CMD_COMPRESS_NOW);
         
         if (selectedItem.isFile && /^(\w+)(\.(js|css))$/.test(selectedItem.name)) {
-            compressfile_cmd.setEnabled(true);
+            
+            if (projectMenu) {
+                projectMenu.addMenuItem(Commands.CMD_COMPRESS_NOW, Shortcuts.allPlatforms.CMD_COMPRESS_NOW);
+            }
+//            compressfile_cmd.setEnabled(true);
         }
     });
     

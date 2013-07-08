@@ -35,7 +35,7 @@ define(function (require, exports, module) {
         'en': {
             // commands
             "CMD_COMPRESS_NOW"                  : 'Compress',
-            "CMD_ACTIVE_COMPRESS_ON_SAVE"       : 'Compress on save',
+            "CMD_ACTIVE_COMPRESS_ON_SAVE"       : 'Compress JS/CSS on save',
             // debug
             "DBG_CONNECTING_TO_NODE"            : "[{0}] Connecting to NODE...",
             "DBG_CONNECTING_TO_NODE_FAIL"       : "[{0}] Failed to connect to NODE",
@@ -54,7 +54,7 @@ define(function (require, exports, module) {
         'es': {
             // commands
             "CMD_COMPRESS_NOW"                  : 'Comprimir',
-            "CMD_ACTIVE_COMPRESS_ON_SAVE"       : "Comprimir al guardar",
+            "CMD_ACTIVE_COMPRESS_ON_SAVE"       : "Comprimir JS/CSS al guardar",
             // debug
             "DBG_CONNECTING_TO_NODE"            : "[{0}] Conectando a NODE...",
             "DBG_CONNECTING_TO_NODE_FAIL"       : "[{0}] Falló la conexión con NODE",
