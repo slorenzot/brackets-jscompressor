@@ -34,6 +34,8 @@ Brackets is an open-source editor for web design and development built on top of
 
 For more details about Brackets visit [https://brackets.io](https://brackets.io)
 
+For more Brackets Extensions follow the link [https://github.com/adobe/brackets/wiki/Brackets-Extensions](https://github.com/adobe/brackets/wiki/Brackets-Extensions)
+
 ###Contact info:
 * Twitter: @slorenzot
 * Email: slorenzot@gmail.com
@@ -71,6 +73,7 @@ Brackets es un editor de código abierto para el diseño web y desarrollo constr
 
 Para más detalles acerca de Brackets visita [https://brackets.io](https://brackets.io)
 
+Para más extensiones de Brackets visita [https://github.com/adobe/brackets/wiki/Brackets-Extensions](https://github.com/adobe/brackets/wiki/Brackets-Extensions)
 
 ###Información de contacto:
 * Twitter: @slorenzot
