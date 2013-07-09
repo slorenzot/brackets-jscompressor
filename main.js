@@ -54,10 +54,10 @@ define(function (require, exports, module) {
 //    var langs       = Languages.Strings(brackets.app.language); // get app correct language
     var userLanguage = brackets.app.language,
         langs = Languages.Strings(userLanguage);
-        
-    console.log(StringUtils.format(langs.DBG_LANGUAGE_DETECTED, Commands.EXTENSION_ID, userLanguage));
     
     var settings    = PreferencesManager.getPreferenceStorage(Commands.EXTENSION_ID);
+        
+    console.log(StringUtils.format(langs.DBG_LANGUAGE_DETECTED, Commands.EXTENSION_ID, userLanguage));
     
     var jscompressor = {
         name: 'Brackets JSCompressor',
@@ -139,11 +139,11 @@ define(function (require, exports, module) {
         function () {
             var autocompress_isActive = settings.getValue(Commands.SET_AUTOCOMPRESS_ON_SAVE_ENABLED),
                 command = CommandManager.get(Commands.CMD_ACTIVE_COMPRESS_ON_SAVE);
-                    
+            
             settings.setValue(Commands.SET_AUTOCOMPRESS_ON_SAVE_ENABLED, !autocompress_isActive);
             PreferencesManager.savePreferences();
-            
-            command.setChecked(jscompressor.is_active_autocompress);
+
+            command.setChecked(!autocompress_isActive);
         }
     );
     
