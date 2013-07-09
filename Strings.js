@@ -27,12 +27,11 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global define, exports, require */
 
-
 define(function (require, exports, module) {
     'use strict';
     
     var _languages = {
-        'en': {
+        'en-US': {
             // commands
             "CMD_COMPRESS_NOW"                  : 'Compress',
             "CMD_ACTIVE_COMPRESS_ON_SAVE"       : 'Compress JS/CSS on save',
@@ -41,6 +40,7 @@ define(function (require, exports, module) {
             "DBG_CONNECTING_TO_NODE_FAIL"       : "[{0}] Failed to connect to NODE",
             "DBG_CONNECTION_TO_NODE_SUCCESS"    : "[{0}] Successful connecting to NODE",
             "DBG_LANGUAGE_DETECTED"             : '[{0}] Language detected: {1}',
+            "DBG_LANGUAGE_NOT_FOUND"            : '[{0}] Language {1} not found... setting {1}',
             "DBG_TO_LOAD_NODEEXEC_DOMAIN_SUCCESS" : "[{0}] Success to load node-exec domain {1}",
             "DBG_TO_LOAD_NODEEXEC_DOMAIN_ERROR" : "[{0}] failed to load node-exec domain {1}",
             "DBG_GENERIC_ERROR"                 : "[{0}] error: {1}",
@@ -60,6 +60,7 @@ define(function (require, exports, module) {
             "DBG_CONNECTING_TO_NODE_FAIL"       : "[{0}] Falló la conexión con NODE",
             "DBG_CONNECTION_TO_NODE_SUCCESS"    : "[{0}] Éxito conectando con NODE",
             "DBG_LANGUAGE_DETECTED"             : '[{0}] Idioma detectado: {1}',
+            "DBG_LANGUAGE_NOT_FOUND"            : '[{0}] Idioma {1} no encontrado... se usará el idioma {1}',
             "DBG_TO_LOAD_NODEEXEC_DOMAIN_SUCCESS" : "[{0}] Éxito al cargar el nodo de ejecución {1}",
             "DBG_TO_LOAD_NODEEXEC_DOMAIN_ERROR" : "[{0}] Falló al cargar el dominio node-exec {1}",
             "DBG_GENERIC_ERROR"                 : "[{0}] error: {1}",
@@ -73,7 +74,14 @@ define(function (require, exports, module) {
     };
     
     function getLanguage(id) {
-        return _languages[id];
+        var pos = 0, def_language = 'en-US';
+        for (pos in _languages) {
+            if (_languages.hasOwnProperty(pos) && _languages[pos] === id) {
+                return _languages[pos];
+            }
+        }
+        
+        return _languages[def_language];
     }
     
     exports.Strings = getLanguage;
