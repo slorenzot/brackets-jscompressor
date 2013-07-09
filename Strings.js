@@ -74,8 +74,8 @@ define(function (require, exports, module) {
     };
     
     function getLanguage(lang_flag) {
-        var def_language = "en-US", _lang = lang_flag.split('-')[0] || lang_flag;
-        console.log(_languages[_lang]);
+        var def_language = "en-US",
+            _lang = lang_flag.split('-')[0] || lang_flag;
         
         return _languages[_lang] || _languages[def_language];
     }
