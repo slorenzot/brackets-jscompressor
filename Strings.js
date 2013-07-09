@@ -73,14 +73,11 @@ define(function (require, exports, module) {
         }
     };
     
-    function getLanguage(id) {
-        var def_language = "en-US";
+    function getLanguage(lang_flag) {
+        var def_language = "en-US", _lang = lang_flag.split('-')[0] || lang_flag;
+        console.log(_languages[_lang]);
         
-        if (_languages[id] === undefined) {
-            return _languages[def_language];
-        }
-        
-        return _languages[id];
+        return _languages[_lang] || _languages[def_language];
     }
     
     exports.Strings = getLanguage;
