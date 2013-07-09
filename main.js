@@ -105,12 +105,12 @@ define(function (require, exports, module) {
         compressfile: function () {
             var selectedItem = ProjectManager.getSelectedItem();
             
-            if (!jscompressor.checkJREInstall()) {
-                return; // Do nothing because JRE is not installed
-            }
-
             if (selectedItem === null) {
                 selectedItem = DocumentManager.getCurrentDocument().file;
+            }
+            
+            if (!jscompressor.checkJREInstall() || !selectedItem.isFile || !/^(\w+)(\.(js|css))$/.test(selectedItem.name)) {
+                return; // Do nothing because JRE is not installed
             }
             
             var compressor_path = jscompressor.getCompressorPath(), // get path to compressor
