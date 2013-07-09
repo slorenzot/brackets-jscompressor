@@ -48,30 +48,23 @@ define(function (require, exports, module) {
         
     var Commands    = require('Commands'),
         Languages   = require('Strings'),
-        Shortcuts   = require('Shortcuts');
+        Shortcuts   = require('Shortcuts'),
+        Utils       = require('Utils');
     
-    var langs       = Languages.Strings(brackets.app.language); // get app correct language
-    console.log(StringUtils.format(langs.DBG_LANGUAGE_DETECTED, Commands.EXTENSION_ID, brackets.app.language));
+//    var langs       = Languages.Strings(brackets.app.language); // get app correct language
+    var useLanguage = brackets.app.language,
+        langs = Languages.Strings('ru');
+        
+    console.log(StringUtils.format(langs.DBG_LANGUAGE_DETECTED, Commands.EXTENSION_ID, useLanguage));
     
     var settings    = PreferencesManager.getPreferenceStorage(Commands.EXTENSION_ID);
     
-//    var NodeManager = require('NodeManager');
-//    NodeManager.connect();
-//    NodeManager.load('node/NodeExecDomain');
-    
-    // get bracket jscompress full path
-    function getExtensionPath() {
-        var selectedItem = ProjectManager.getSelectedItem(),
-            file_cwd = selectedItem.fullPath.split('/');
-            
-        file_cwd.pop();
-        
-        return file_cwd.join('/');
-    }
-    
     var jscompressor = {
         name: 'Brackets JSCompressor',
-        extensions: ["js", "css"],
+        extensions: [ // allowed extension file
+            "js",
+            "css"
+        ],
         compressed_extension: "-min.",
         compressor_relpath: '/brackets-jscompressor/compressor/yuicompressor-2.4.2.jar',
         getCompressorPath: function () {
@@ -129,7 +122,7 @@ define(function (require, exports, module) {
             var command = StringUtils.format("java -jar '{0}' -o '{1}' '{2}'", compressor_path, dst, src);
             
             nodeConnection.domains.nodeexec.runScript(command, null, {
-                cwd: getExtensionPath()
+                cwd: Utils.getExtensionPath()
             });
         }
     };
@@ -175,7 +168,9 @@ define(function (require, exports, module) {
     
     // after save document action
     $(DocumentManager).on("documentSaved", function (evt, entry) {
-        if (jscompressor.isJREInstalled() && jscompressor.is_active_autocompress) {
+        var autocompress_isActive = settings.getValue(Commands.SET_AUTOCOMPRESS_ON_SAVE_ENABLED);
+        
+        if (jscompressor.isJREInstalled() && autocompress_isActive) {
             jscompressor.compressfile();
         }
     });
@@ -254,8 +249,6 @@ define(function (require, exports, module) {
         $(nodeConnection)
             .on("nodeexec.update", function (domain, response) {
                 var command = JSON.parse(response); // parsing json from node js
-                
-                console.log(command);
             
                 if (command.stderr || command.stdout) { // if compressing process fail
                     console.error(StringUtils.format(langs.DBG_GENERIC_ERROR, Commands.EXTENSION_ID, command.stderr || command.stdout));
