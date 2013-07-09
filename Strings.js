@@ -74,14 +74,13 @@ define(function (require, exports, module) {
     };
     
     function getLanguage(id) {
-        var pos = 0, def_language = 'en-US';
-        for (pos in _languages) {
-            if (_languages.hasOwnProperty(pos) && _languages[pos] === id) {
-                return _languages[pos];
-            }
+        var def_language = "en-US";
+        
+        if (_languages[id] === undefined) {
+            return _languages[def_language];
         }
         
-        return _languages[def_language];
+        return _languages[id];
     }
     
     exports.Strings = getLanguage;

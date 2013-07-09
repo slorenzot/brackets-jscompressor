@@ -41,10 +41,10 @@ define(function (require, exports, module) {
         Menus               = brackets.getModule("command/Menus"),
         NodeConnection      = brackets.getModule("utils/NodeConnection");
         
-    var appMenu            = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU),
-        projectMenu     = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU),
-        workingsetMenu  = Menus.getContextMenu(Menus.ContextMenuIds.WORKING_SET_MENU),
-        nodeConnection  = null;
+    var appMenu             = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU),
+        projectMenu         = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU),
+        workingsetMenu      = Menus.getContextMenu(Menus.ContextMenuIds.WORKING_SET_MENU),
+        nodeConnection      = null;
         
     var Commands    = require('Commands'),
         Languages   = require('Strings'),
@@ -52,10 +52,10 @@ define(function (require, exports, module) {
         Utils       = require('Utils');
     
 //    var langs       = Languages.Strings(brackets.app.language); // get app correct language
-    var useLanguage = brackets.app.language,
-        langs = Languages.Strings('ru');
+    var userLanguage = brackets.app.language,
+        langs = Languages.Strings(userLanguage);
         
-    console.log(StringUtils.format(langs.DBG_LANGUAGE_DETECTED, Commands.EXTENSION_ID, useLanguage));
+    console.log(StringUtils.format(langs.DBG_LANGUAGE_DETECTED, Commands.EXTENSION_ID, userLanguage));
     
     var settings    = PreferencesManager.getPreferenceStorage(Commands.EXTENSION_ID);
     
@@ -119,7 +119,7 @@ define(function (require, exports, module) {
                 new_ext = jscompressor.compressed_extension + src.split('.').pop(), // only new extension file
                 dst = filename + new_ext; // compressed filepath (path + filename + new extension)
             
-            var command = StringUtils.format("java -jar '{0}' -o '{1}' '{2}'", compressor_path, dst, src);
+            var command = StringUtils.format('java -jar "{0}" -o "{1}" "{2}"', compressor_path, dst, src);
             
             nodeConnection.domains.nodeexec.runScript(command, null, {
                 cwd: Utils.getExtensionPath()
