@@ -31,7 +31,7 @@ define(function (require, exports, module) {
     'use strict';
     
     var _languages = {
-        'en-US': {
+        'en': {
             // commands
             "CMD_COMPRESS_NOW"                  : 'Compress',
             "CMD_ACTIVE_COMPRESS_ON_SAVE"       : 'Compress JS/CSS on save',
