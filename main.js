@@ -51,13 +51,14 @@ define(function (require, exports, module) {
         Shortcuts   = require('Shortcuts'),
         Utils       = require('Utils');
     
-//    var langs       = Languages.Strings(brackets.app.language); // get app correct language
     var userLanguage = brackets.app.language,
         langs = Languages.Strings(userLanguage);
     
     var settings    = PreferencesManager.getPreferenceStorage(Commands.EXTENSION_ID);
         
     console.log(StringUtils.format(langs.DBG_LANGUAGE_DETECTED, Commands.EXTENSION_ID, userLanguage));
+    
+    console.log(module.uri);
     
     var jscompressor = {
         name: 'Brackets JSCompressor',
@@ -66,9 +67,9 @@ define(function (require, exports, module) {
             "css"
         ],
         compressed_extension: "-min.",
-        compressor_relpath: '/brackets-jscompressor/compressor/yuicompressor-2.4.2.jar',
+        compressor_relpath: 'compressor/yuicompressor-2.4.2.jar',
         getCompressorPath: function () {
-            return ExtensionLoader.getUserExtensionPath() + this.compressor_relpath;
+            return StringUtils.format("{0}/{1}", Utils.getExtensionPath(), this.compressor_relpath);
         },
         checkJREInstall: function () {
             var jreInstalled = jscompressor.isJREInstalled();
@@ -98,9 +99,6 @@ define(function (require, exports, module) {
 //                    console.log(command);
 //                });
             return true;
-        },
-        autocompress: function () {
-            alert("Activa la compresión automática de archivo js/css");
         },
         compressfile: function () {
             var selectedItem = ProjectManager.getSelectedItem();
