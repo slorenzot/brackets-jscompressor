@@ -4,7 +4,7 @@
     "description": "Javascript Compressor Extension for Adobe Brackets.",
     "homepage": "https://bitbucket.org/slorenzot/brackets-jscompressor",
     "version": "0.1.4",
-    "author": "Soulberto Lorenzo <slorenzot@gmail.com>",
+    "author": "Soulberto Lorenzo <slorenzot@gmail.com> (https://github.com/slorenzot)",
     "license": "MIT",
     "engines": {
         "brackets": ">=0.24.0"
