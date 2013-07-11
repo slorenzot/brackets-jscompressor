@@ -40,6 +40,14 @@ For more Brackets Extensions follow the link [https://github.com/adobe/brackets/
 * Twitter: @slorenzot
 * Email: slorenzot@gmail.com
 
+###Some screenshots:
+![alt text](https://photos-3.dropbox.com/t/0/AABtiCZDFWQysxk4N-0lZZyI6Qg7bChciQD1Q_0Z48teQA/12/22267643/png/32x32/3/1373554800/0/2/1.png/_wpQ_P813eNYAcKkotjesOhU_XsnSH0_oD6dO49FZbY?size=1024x768 "How to install this extension")
+
+![alt text](https://photos-5.dropbox.com/t/0/AABRMvQzfWVFQP3j1qLNDZbWuRvfVWtP-aZTvrmz2QYCLw/12/22267643/png/32x32/3/1373565600/0/2/4.png/FNi5iYwvhGrMJ5DqWmGXVP9AQWSCMVDscYD_IAku8zg?size=1024x768 "Compress on save")
+
+
+![alt text](https://photos-3.dropbox.com/t/0/AACppWwhs3tW_4SgFS6B2IUPyyAzOVMbtq9RETvQcFEUsg/12/22267643/png/32x32/3/1373565600/0/2/3.png/IJL45NL1n96ru5x9xGja3bQfXttYNlYY52h8iwt3srQ?size=1024x768 "Compress on save")
+
 ------------------------------------------------
 
 
@@ -78,3 +86,12 @@ Para más extensiones de Brackets visita [https://github.com/adobe/brackets/wiki
 ###Información de contacto:
 * Twitter: @slorenzot
 * Email: slorenzot@gmail.com
+
+
+###Algunas capturas de pantalla:
+![alt text](https://photos-3.dropbox.com/t/0/AABtiCZDFWQysxk4N-0lZZyI6Qg7bChciQD1Q_0Z48teQA/12/22267643/png/32x32/3/1373554800/0/2/1.png/_wpQ_P813eNYAcKkotjesOhU_XsnSH0_oD6dO49FZbY?size=1024x768 "How to install this extension")
+
+![alt text](https://photos-5.dropbox.com/t/0/AABRMvQzfWVFQP3j1qLNDZbWuRvfVWtP-aZTvrmz2QYCLw/12/22267643/png/32x32/3/1373565600/0/2/4.png/FNi5iYwvhGrMJ5DqWmGXVP9AQWSCMVDscYD_IAku8zg?size=1024x768 "Compress on save")
+
+
+![alt text](https://photos-3.dropbox.com/t/0/AACppWwhs3tW_4SgFS6B2IUPyyAzOVMbtq9RETvQcFEUsg/12/22267643/png/32x32/3/1373565600/0/2/3.png/IJL45NL1n96ru5x9xGja3bQfXttYNlYY52h8iwt3srQ?size=1024x768 "Compress on save")
