@@ -109,13 +109,16 @@ define(function (require, exports, module) {
                 selectedItem = DocumentManager.getCurrentDocument().file;
             }
             
-            if (!jscompressor.checkJREInstall() || !selectedItem.isFile || !/^(\w+)(\.(js|css))$/.test(selectedItem.name)) {
+            if (!jscompressor.checkJREInstall()
+                    || !selectedItem.isFile
+                        || (/([\w\.]+)(\-min)\.(js|css)$/.test(selectedItem.name)
+                            || !/(\.(js|css))$/.test(selectedItem.name))) {
                 return; // Do nothing because JRE is not installed
             }
             
             var compressor_path = jscompressor.getCompressorPath(), // get path to compressor
                 src = selectedItem.fullPath,
-                filename = src.split('.').shift(), // full filename without extension
+                filename = src.substring(0, src.lastIndexOf('.')), // full filename without extension
                 new_ext = jscompressor.compressed_extension + src.split('.').pop(), // only new extension file
                 dst = filename + new_ext; // compressed filepath (path + filename + new extension)
             
@@ -179,11 +182,11 @@ define(function (require, exports, module) {
     $(projectMenu).on("beforeContextMenuOpen", function (event) {
         var selectedItem = ProjectManager.getSelectedItem();
         
-//        compressfile_cmd.setEnabled(false);
         projectMenu.removeMenuItem(Commands.CMD_COMPRESS_NOW);
         
-        if (selectedItem.isFile && /^(\w+)(\.(js|css))$/.test(selectedItem.name)) {
-            
+        if (selectedItem.isFile
+                && (!/([\w\.]+)(\-min)\.(js|css)$/.test(selectedItem.name)
+                    && /(\.(js|css))$/.test(selectedItem.name))) {
             if (projectMenu) {
                 projectMenu.addMenuItem(Commands.CMD_COMPRESS_NOW, Shortcuts.allPlatforms.CMD_COMPRESS_NOW);
             }
