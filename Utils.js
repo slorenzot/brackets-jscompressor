@@ -30,13 +30,10 @@
 
 define(function (require, exports, module) {
     'use strict';
-    
-    var ProjectManager      = brackets.getModule("project/ProjectManager");
 
     // get bracket jscompress full path
     exports.getExtensionPath = function () {
-        var selectedItem = ProjectManager.getSelectedItem(),
-            file_cwd = selectedItem.fullPath.split('/');
+        var file_cwd = String(module.uri).split('/');
                 
         file_cwd.pop();
         
