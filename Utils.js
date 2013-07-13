@@ -33,10 +33,8 @@ define(function (require, exports, module) {
 
     // get bracket jscompress full path
     exports.getExtensionPath = function () {
-        var file_cwd = String(module.uri).split('/');
-                
-        file_cwd.pop();
+        var path = String(module.uri);
         
-        return file_cwd.join('/');
+        return path.substring(0, path.lastIndexOf('/'));
     };
 });
